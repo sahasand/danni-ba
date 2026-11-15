@@ -1,0 +1,1288 @@
+<!doctype html>
+<html lang="es" data-lang="es" data-notas="on">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Danni | Lucy's Spa, masajes y estética en Microcentro</title>
+<!-- Borrador: que los buscadores no lo indexen todavía. Borrar esta línea cuando la página sea la definitiva. -->
+<meta name="robots" content="noindex">
+<meta name="description" content="Danni, dueña de Lucy's Spa. Diez años de masajes y estética en el Microcentro de Buenos Aires. Atención en español y en inglés.">
+
+<!--
+  VERSIÓN 3D de la página de Danni. Las otras son oscuro.html y claro.html.
+  La portada con todas las versiones es index.html.
+
+  El fondo es una escena en 3D (piedras calientes sobre agua) dibujada con three.js.
+  Se mueve con el scroll y con el mouse. Si el navegador no puede mostrar 3D,
+  se ve la foto de portada en su lugar. El código de la escena está al final del archivo.
+
+  CÓMO EDITAR ESTA PÁGINA
+
+  Textos: cada texto está dos veces, una con lang="es" y otra con lang="en".
+  Cambiá las dos.
+
+  Fotos: hoy se ven fotos de muestra (Unsplash, licencia libre). Guardá las fotos
+  reales en la carpeta "fotos" con estos nombres y reemplazan solas a las de muestra:
+    fotos/danni.jpg      retrato de Danni (vertical)
+    fotos/sala.jpg       una sala del spa (horizontal)
+    fotos/portada.jpg    solo se usa si el navegador no puede mostrar la escena 3D
+
+  Notas de borrador: las etiquetas punteadas son avisos para Danni.
+  Para sacarlas del todo, cambiá data-notas="on" por data-notas="off" en la etiqueta <html>.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400;6..96,500&family=Hanken+Grotesk:wght@300;400;500&display=swap" rel="stylesheet">
+
+<script>
+  /* Si no existe la foto real en la carpeta "fotos", se usa la de muestra */
+  function fotoDeMuestra(img) {
+    var marco = img.closest('.foto');
+    var muestra = img.dataset.muestra;
+    if (muestra && !img.dataset.esMuestra) {
+      img.dataset.esMuestra = '1';
+      img.alt = document.documentElement.lang === 'en' ? 'Sample photo' : 'Foto de muestra';
+      marco.classList.add('muestra');
+      img.src = muestra;
+    } else {
+      marco.classList.add('vacia');
+      img.remove();
+    }
+  }
+</script>
+
+<style>
+  :root {
+    --noche: #070605;
+    --basalto: #12100E;
+    --hueso: #EDE6DA;
+    --humo: #A39A8C;
+    --agua: #9DB8AC;
+    --linea: rgba(237, 230, 218, 0.16);
+
+    --titulos: "Bodoni Moda", "Didot", "Bodoni 72", Georgia, serif;
+    --texto: "Hanken Grotesk", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
+    --borde: clamp(1.5rem, 5vw, 4.5rem);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { background: var(--noche); scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--noche);
+    color: var(--hueso);
+    font-family: var(--texto);
+    font-weight: 300;
+    font-size: 1.125rem;
+    line-height: 1.65;
+    overflow-x: hidden;
+  }
+
+  /* Idiomas: se muestra uno solo */
+  html[data-lang="es"] body [lang="en"],
+  html[data-lang="en"] body [lang="es"] { display: none !important; }
+
+  /* Notas de borrador */
+  html[data-notas="off"] body .nota { display: none !important; }
+
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+  p { margin: 0 0 1.1em; }
+  h1, h2, h3 { margin: 0; font-family: var(--titulos); font-weight: 400; text-wrap: balance; }
+  ul { list-style: none; margin: 0; padding: 0; }
+
+  :focus-visible { outline: 1px solid var(--hueso); outline-offset: 4px; }
+
+  /* La escena 3D, fija detrás de todo */
+  #escena {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    width: 100vw;
+    height: 100vh;
+    height: 100lvh;
+    opacity: 0;
+    transition: opacity 1.6s ease;
+    pointer-events: none;
+  }
+  html.con-3d #escena { opacity: 1; }
+
+  /* Foto de respaldo, solo si no hay 3D */
+  .respaldo { display: none; position: fixed; inset: 0; z-index: 0; }
+  .respaldo::after { content: ""; position: absolute; inset: 0; background: rgba(7, 6, 5, 0.72); }
+  html.sin-3d .respaldo { display: block; }
+
+  .barra, main, .pie { position: relative; z-index: 1; }
+
+  .ancho { max-width: 86rem; margin-inline: auto; padding-inline: var(--borde); }
+
+  section[id] { scroll-margin-top: 1rem; }
+
+  /* Letra chica espaciada */
+  .fina {
+    font-family: var(--texto);
+    font-weight: 400;
+    font-size: 0.74rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+  }
+
+  .btn {
+    display: inline-block;
+    padding: 1.2em 2.2em;
+    border: 1px solid var(--hueso);
+    background: var(--hueso);
+    color: var(--noche);
+    text-decoration: none;
+    line-height: 1.2;
+    text-shadow: none;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  .btn:hover { background: transparent; color: var(--hueso); }
+  .btn-hueco { background: rgba(7, 6, 5, 0.35); color: var(--hueso); border-color: rgba(237, 230, 218, 0.5); }
+  .btn-hueco:hover { background: var(--hueso); color: var(--noche); }
+
+  .enlace { padding-bottom: 0.3em; border-bottom: 1px solid currentColor; text-decoration: none; transition: opacity 0.2s ease; }
+  .enlace:hover { opacity: 0.65; }
+
+  .nota {
+    display: inline-block;
+    padding: 0.35em 0.7em;
+    border: 1px dashed var(--humo);
+    color: var(--humo);
+    font-family: var(--texto);
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 1.35;
+    letter-spacing: 0;
+    text-transform: none;
+    text-decoration: none;
+  }
+
+  /* Fotos */
+  .foto { position: relative; margin: 0; overflow: hidden; background: var(--basalto); }
+  .foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .foto.vacia { display: none; }
+  .foto .nota {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    z-index: 2;
+    border-color: rgba(237, 230, 218, 0.55);
+    background: rgba(7, 6, 5, 0.72);
+    color: var(--hueso);
+  }
+  .foto:not(.muestra) .nota { display: none; }
+
+  /* Las fotos se inclinan apenas hacia el mouse */
+  .inclinar { transition: transform 0.5s cubic-bezier(0.2, 0.7, 0.2, 1); will-change: transform; }
+
+  /* Lo que está sobre la escena lleva una sombra suave para leerse bien */
+  .sobre-escena { text-shadow: 0 0 1.5rem rgba(7, 6, 5, 0.85), 0 0 0.4rem rgba(7, 6, 5, 0.6); }
+
+  /* Barra */
+  .barra { position: absolute; top: 0; left: 0; right: 0; }
+  .barra .ancho { display: flex; align-items: center; gap: 2.5rem; padding-block: 1.75rem; }
+  .marca { margin-right: auto; font-family: var(--titulos); font-size: 1.5rem; line-height: 1; text-decoration: none; }
+  .marca .marca-ciudad { display: block; margin-top: 0.55rem; font-size: 0.6rem; letter-spacing: 0.34em; color: var(--humo); }
+  .nav { display: flex; gap: 2.5rem; }
+  .nav a { text-decoration: none; transition: opacity 0.2s ease; }
+  .nav a:hover { opacity: 0.6; }
+  .idiomas { display: flex; gap: 0.9rem; }
+  .idiomas button {
+    appearance: none;
+    border: 0;
+    border-bottom: 1px solid transparent;
+    margin: 0;
+    padding: 0 0 0.3em;
+    background: none;
+    color: var(--hueso);
+    opacity: 0.5;
+    cursor: pointer;
+  }
+  .idiomas button[aria-pressed="true"] { opacity: 1; border-bottom-color: var(--hueso); }
+
+  /* Portada */
+  .portada {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 100vh;
+    min-height: max(100svh, 40rem);
+    padding-block: 7rem clamp(2.5rem, 6vw, 4.5rem);
+  }
+  .portada > .ancho { width: 100%; }
+  .portada-lugar { margin-bottom: 1.25rem; color: var(--humo); }
+  .coord { display: inline-block; margin-left: 1.6em; opacity: 0.75; white-space: nowrap; }
+  .portada h1 { font-size: clamp(4.2rem, 13vw, 12rem); line-height: 0.92; letter-spacing: -0.02em; margin-bottom: 0.28em; }
+  .bajada { max-width: 30rem; font-size: 1.2rem; line-height: 1.6; }
+  .acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem 2.25rem; margin: 2rem 0 1.6rem; }
+  .horario-corto { margin: 0; color: var(--humo); font-size: 1rem; }
+
+  /* Secciones */
+  .seccion { padding-block: clamp(5rem, 14vw, 11rem); }
+  .seccion h2 { font-size: clamp(2.5rem, 5.2vw, 4.6rem); line-height: 1.03; letter-spacing: -0.01em; }
+
+  /* Danni: el texto a la derecha, las piedras flotan a la izquierda */
+  .historia { min-height: 115vh; }
+  .historia-texto { max-width: 34rem; margin-left: auto; }
+  .historia h2 { margin: 1.25rem 0 0.7em; }
+  .historia-resto { color: rgba(237, 230, 218, 0.9); }
+  .historia-abajo {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(2.5rem, 7vw, 7rem);
+    align-items: end;
+    margin-top: clamp(4rem, 9vw, 7rem);
+  }
+  .historia .foto { aspect-ratio: 4 / 5; max-width: 30rem; }
+  .datos div {
+    display: grid;
+    grid-template-columns: 9rem 1fr;
+    align-items: baseline;
+    gap: 1.5rem;
+    padding: 1.05rem 0;
+    border-top: 1px solid var(--linea);
+  }
+  .datos { margin: 0; }
+  .datos div:last-child { border-bottom: 1px solid var(--linea); }
+  .datos dt { color: var(--humo); }
+  .datos dd { margin: 0; font-family: var(--titulos); font-size: 1.5rem; line-height: 1.2; }
+
+  /* Tratamientos: un panel de vidrio a la izquierda, el camino de piedras a la derecha */
+  .panel {
+    max-width: 56rem;
+    padding: clamp(1.5rem, 4vw, 3.5rem);
+    border: 1px solid var(--linea);
+    background: rgba(12, 11, 10, 0.62);
+    -webkit-backdrop-filter: blur(22px);
+    backdrop-filter: blur(22px);
+  }
+  .tratamientos h2 { margin-bottom: 0.45em; }
+  .tratamientos-intro { max-width: 34rem; margin: 0 0 clamp(2.5rem, 5vw, 3.5rem); color: rgba(237, 230, 218, 0.86); }
+  .carta { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 clamp(2rem, 4vw, 3.5rem); }
+  .grupo { margin-bottom: 3rem; }
+  .grupo:last-child { margin-bottom: 0; }
+  .grupo h3 { font-size: 1.75rem; line-height: 1.1; padding-bottom: 0.9rem; color: var(--agua); }
+  .trat {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: baseline;
+    gap: 0.1rem 1.25rem;
+    padding: 1rem 0;
+    border-top: 1px solid var(--linea);
+    text-decoration: none;
+    transition: padding-left 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+  .grupo li:last-child .trat { border-bottom: 1px solid var(--linea); }
+  .trat:hover, .trat:focus-visible { padding-left: 0.6rem; }
+  .trat-nom { font-family: var(--titulos); font-size: 1.4rem; line-height: 1.2; }
+  .trat-desc { grid-column: 1; font-size: 0.96rem; line-height: 1.5; color: var(--humo); }
+  .trat-pedir {
+    grid-column: 2;
+    grid-row: 1;
+    padding-bottom: 0.3em;
+    border-bottom: 1px solid transparent;
+    white-space: nowrap;
+    opacity: 0.55;
+    transition: opacity 0.2s ease, border-color 0.2s ease;
+  }
+  .trat:hover .trat-pedir, .trat:focus-visible .trat-pedir { opacity: 1; border-bottom-color: currentColor; }
+
+  /* Frase del equipo, sola sobre el agua */
+  .frase { display: grid; place-items: center; min-height: 110vh; padding: 5rem var(--borde); text-align: center; }
+  .equipo {
+    max-width: 19em;
+    margin: 0;
+    font-family: var(--titulos);
+    font-size: clamp(1.9rem, 3.9vw, 3.4rem);
+    line-height: 1.2;
+    text-wrap: balance;
+  }
+
+  /* Visita */
+  .visita { min-height: 120vh; }
+  .visita-texto { max-width: 31rem; }
+  .visita h2 { margin-bottom: 0.9em; }
+  .direccion { font-family: var(--titulos); font-style: normal; font-size: clamp(1.7rem, 2.8vw, 2.3rem); line-height: 1.15; }
+  .direccion-resto { color: var(--humo); margin: 0.4rem 0 1.5rem; }
+  .visita h3 { font-family: var(--texto); color: var(--humo); margin: 2.75rem 0 0.9rem; }
+  .visita-lista li { padding: 0.2rem 0; }
+  .visita-lista .etiqueta { display: inline-block; min-width: 8.5rem; color: var(--humo); }
+  .visita-lista a { text-decoration: none; border-bottom: 1px solid var(--linea); }
+  .visita-lista a:hover { border-bottom-color: var(--hueso); }
+  .visita .foto { aspect-ratio: 3 / 2; margin-top: 3.5rem; }
+
+  /* Cierre */
+  .cierre { display: grid; place-items: center; min-height: 100vh; min-height: 100svh; padding: 5rem var(--borde); text-align: center; }
+  .cierre h2 { font-size: clamp(3rem, 9vw, 8rem); line-height: 1; margin-bottom: 0.25em; letter-spacing: -0.02em; }
+  .cierre-ciudad { margin: 0 0 2.5rem; color: var(--humo); font-size: 1.2rem; }
+
+  .pie { padding-block: 0 2.5rem; color: var(--humo); font-size: 0.92rem; }
+  .pie-fila {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 0.75rem 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--linea);
+  }
+  .pie p { margin: 0; }
+  .pie .nota { margin-top: 0.5rem; }
+  .pie button {
+    appearance: none;
+    border: 0;
+    padding: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+    cursor: pointer;
+  }
+
+  /* Botón fijo de WhatsApp */
+  .flota {
+    position: fixed;
+    right: 1.25rem;
+    bottom: 1.25rem;
+    z-index: 20;
+    padding: 1em 1.6em;
+    border: 1px solid var(--noche);
+    background: var(--hueso);
+    color: var(--noche);
+    text-decoration: none;
+    line-height: 1.2;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+    transition: opacity 0.3s ease, visibility 0.3s;
+  }
+  .flota[data-oculta] { opacity: 0; visibility: hidden; }
+
+  /* Movimiento: la portada entra una vez, y cada bloque aparece al llegar */
+  @media (prefers-reduced-motion: no-preference) {
+    .portada-cuerpo > * { animation: entrar 1.5s cubic-bezier(0.2, 0.7, 0.2, 1) both; }
+    .portada-cuerpo > :nth-child(1) { animation-delay: 1.1s; }
+    .portada-cuerpo > :nth-child(2) { animation-delay: 1.3s; }
+    .portada-cuerpo > :nth-child(n+3) { animation-delay: 1.7s; }
+    @keyframes entrar {
+      from { opacity: 0; transform: translateY(22px); filter: blur(10px); }
+      to { opacity: 1; transform: none; filter: none; }
+    }
+    html.con-js .aparece { opacity: 0; transform: translateY(26px); transition: opacity 1.1s ease, transform 1.1s cubic-bezier(0.2, 0.7, 0.2, 1); }
+    html.con-js .aparece.visto { opacity: 1; transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    .inclinar { transition: none; }
+  }
+
+  /* Pantallas chicas */
+  @media (max-width: 54rem) {
+    .nav { display: none; }
+    .historia-abajo, .carta { grid-template-columns: minmax(0, 1fr); }
+    .historia-texto { margin-left: 0; }
+    .grupo:last-child { margin-bottom: 3rem; }
+    .carta > div:last-child .grupo:last-child { margin-bottom: 0; }
+  }
+  @media (max-width: 30rem) {
+    body { font-size: 1.0625rem; }
+    .coord { display: block; margin: 0.35rem 0 0; }
+    .datos div { grid-template-columns: 7rem 1fr; gap: 1rem; }
+    .visita-lista .etiqueta { display: block; min-width: 0; margin-top: 0.6rem; }
+    .acciones { gap: 1.25rem; }
+  }
+</style>
+</head>
+
+<body>
+
+<canvas id="escena" aria-hidden="true"></canvas>
+<figure class="foto respaldo">
+  <img src="fotos/portada.jpg" alt="" loading="lazy" data-muestra="https://images.unsplash.com/photo-1696841212541-449ca29397cc?auto=format&fit=crop&w=1900&q=70" onerror="fotoDeMuestra(this)">
+</figure>
+
+<header class="barra">
+  <div class="ancho">
+    <a class="marca" href="#inicio">Lucy's Spa<span class="marca-ciudad fina">Buenos Aires</span></a>
+    <nav class="nav fina" aria-label="Secciones">
+      <a href="#danni">Danni</a>
+      <a href="#tratamientos"><span lang="es">Tratamientos</span><span lang="en">Treatments</span></a>
+      <a href="#visita"><span lang="es">Cómo llegar</span><span lang="en">Find us</span></a>
+    </nav>
+    <div class="idiomas" role="group" aria-label="Idioma / Language">
+      <button type="button" class="fina" data-idioma="es" aria-pressed="true" aria-label="Español">ES</button>
+      <button type="button" class="fina" data-idioma="en" aria-pressed="false" aria-label="English">EN</button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <section class="portada" id="inicio" data-ancla>
+    <div class="ancho">
+      <div class="portada-cuerpo sobre-escena">
+        <p class="portada-lugar fina">Microcentro, Buenos Aires <span class="coord">34°36′ S, 58°22′ <span lang="es">O</span><span lang="en">W</span></span></p>
+        <h1><span lang="es">Soy Danni.</span><span lang="en">I'm Danni.</span></h1>
+        <p class="bajada" lang="es">Hace diez años que me dedico al masaje y a la estética. Lucy's Spa es mi lugar, y atiendo en español y en inglés.</p>
+        <p class="bajada" lang="en">I've worked in massage and skin care for ten years. Lucy's Spa is my place, and I see clients in Spanish and English.</p>
+        <div class="acciones" id="acciones">
+          <a class="btn fina" data-wa href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Reservar por WhatsApp</span><span lang="en">Book on WhatsApp</span></a>
+          <a class="enlace fina" href="#tratamientos"><span lang="es">Ver tratamientos</span><span lang="en">See treatments</span></a>
+        </div>
+        <p class="horario-corto" lang="es">Todos los días de 9 a 21, con turno previo.</p>
+        <p class="horario-corto" lang="en">Open every day, 9 am to 9 pm, by appointment.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="seccion historia" id="danni" data-ancla>
+    <div class="ancho">
+
+      <div class="historia-texto sobre-escena aparece">
+        <span class="nota"><span lang="es">Borrador. Danni: revisá este texto y cambiá lo que no sea así.</span><span lang="en">Draft. Danni: check this text and change anything that isn't right.</span></span>
+
+        <h2><span lang="es">Soy porteña y Lucy's Spa es mío.</span><span lang="en">I'm from Buenos Aires and Lucy's Spa is mine.</span></h2>
+
+        <div class="historia-resto" lang="es">
+          <p>Lo dirijo y también atiendo.</p>
+          <p>Empecé hace diez años. En ese tiempo me formé en distintas técnicas de masaje y en limpieza facial en IDRAET y en IDIP, dos centros de formación en estética, masajes y belleza.</p>
+          <p>Sigo estudiando. Lo que aprendo lo sumo al spa, y lo próximo que quiero incorporar son más tratamientos corporales.</p>
+        </div>
+        <div class="historia-resto" lang="en">
+          <p>I run it and I work in it.</p>
+          <p>I started ten years ago. Since then I've trained in different massage techniques and in facial cleansing at IDRAET and IDIP, two training centres for aesthetics, massage and beauty.</p>
+          <p>I'm still studying. What I learn goes into the spa, and next I want to add more body treatments.</p>
+        </div>
+      </div>
+
+      <div class="historia-abajo">
+        <figure class="foto inclinar aparece">
+          <img src="fotos/danni.jpg" alt="Danni" data-alt-es="Danni en Lucy's Spa" data-alt-en="Danni at Lucy's Spa" data-muestra="https://images.unsplash.com/photo-1741522509438-a120c0bb5e88?auto=format&fit=crop&w=1100&q=70" onerror="fotoDeMuestra(this)">
+          <span class="nota"><span lang="es">Foto de muestra. Acá va el retrato de Danni: fotos/danni.jpg</span><span lang="en">Sample photo. Danni's portrait goes here: fotos/danni.jpg</span></span>
+        </figure>
+
+        <dl class="datos sobre-escena aparece">
+          <div>
+            <dt class="fina"><span lang="es">Formación</span><span lang="en">Training</span></dt>
+            <dd>IDRAET, IDIP</dd>
+          </div>
+          <div>
+            <dt class="fina"><span lang="es">Técnicas</span><span lang="en">Techniques</span></dt>
+            <dd><span lang="es">Masaje y limpieza facial</span><span lang="en">Massage and facial cleansing</span></dd>
+          </div>
+          <div>
+            <dt class="fina"><span lang="es">Experiencia</span><span lang="en">Experience</span></dt>
+            <dd><span lang="es">Diez años</span><span lang="en">Ten years</span></dd>
+          </div>
+          <div>
+            <dt class="fina"><span lang="es">Idiomas</span><span lang="en">Languages</span></dt>
+            <dd><span lang="es">Español e inglés</span><span lang="en">Spanish and English</span></dd>
+          </div>
+        </dl>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="seccion tratamientos" id="tratamientos" data-ancla>
+    <div class="ancho">
+      <div class="panel aparece">
+        <h2><span lang="es">Tratamientos</span><span lang="en">Treatments</span></h2>
+        <p class="tratamientos-intro" lang="es">Tocá un tratamiento y se abre WhatsApp con el pedido ya escrito. Si no sabés cuál elegir, contame qué te duele o qué buscás.</p>
+        <p class="tratamientos-intro" lang="en">Tap a treatment and WhatsApp opens with your request already written. Not sure which one? Tell me what hurts or what you're after.</p>
+
+        <div class="carta">
+
+          <div>
+            <div class="grupo">
+              <h3><span lang="es">Masajes</span><span lang="en">Massage</span></h3>
+              <ul>
+                <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="masaje relajante" data-en="a relaxing massage">
+                  <span class="trat-nom"><span lang="es">Relajante</span><span lang="en">Relaxing</span></span>
+                  <span class="trat-desc"><span lang="es">Ritmo lento y presión suave para bajar el estrés.</span><span lang="en">Slow pace and light pressure to ease stress.</span></span>
+                  <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
+                <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="masaje descontracturante" data-en="a deep tissue massage">
+                  <span class="trat-nom"><span lang="es">Descontracturante</span><span lang="en">Deep tissue</span></span>
+                  <span class="trat-desc"><span lang="es">Presión firme sobre las zonas cargadas: cuello, hombros, espalda.</span><span lang="en">Firm pressure on tight areas: neck, shoulders, back.</span></span>
+                  <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
+                <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="masaje deportivo y rehabilitación" data-en="a sports and recovery massage">
+                  <span class="trat-nom"><span lang="es">Deportivo y rehabilitación</span><span lang="en">Sports and recovery</span></span>
+                  <span class="trat-desc"><span lang="es">Para antes o después de entrenar, y para acompañar una recuperación muscular.</span><span lang="en">For before or after training, and to support muscle recovery.</span></span>
+                  <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
+                <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="masaje californiano" data-en="a Californian massage">
+                  <span class="trat-nom"><span lang="es">Californiano</span><span lang="en">Californian</span></span>
+                  <span class="trat-desc"><span lang="es">Pases largos y envolventes, de cuerpo entero.</span><span lang="en">Long, flowing strokes over the whole body.</span></span>
+                  <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
+                <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="masaje tailandés" data-en="a Thai massage">
+                  <span class="trat-nom"><span lang="es">Tailandés</span><span lang="en">Thai</span></span>
+                  <span class="trat-desc"><span lang="es">Estiramientos y presiones que devuelven movilidad.</span><span lang="en">Stretches and pressure that bring back mobility.</span></span>
+                  <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
+                <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="masaje sueco" data-en="a Swedish massage">
+                  <span class="trat-nom"><span lang="es">Sueco</span><span lang="en">Swedish</span></span>
+                  <span class="trat-desc"><span lang="es">Amasado y fricción. El clásico para aflojar los músculos y activar la circulación.</span><span lang="en">Kneading and friction. The classic for loosening muscles and getting circulation going.</span></span>
+                  <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
+                <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="masaje con piedras calientes" data-en="a hot stone massage">
+                  <span class="trat-nom"><span lang="es">Con piedras calientes</span><span lang="en">Hot stone</span></span>
+                  <span class="trat-desc"><span lang="es">El calor de las piedras afloja la tensión profunda.</span><span lang="en">Heat from the stones releases deep tension.</span></span>
+                  <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
+              </ul>
+            </div>
+
+            <div class="grupo">
+              <h3><span lang="es">Depilación</span><span lang="en">Hair removal</span></h3>
+              <ul>
+                <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="depilación sistema español" data-en="Spanish wax hair removal">
+                  <span class="trat-nom"><span lang="es">Sistema español</span><span lang="en">Spanish wax</span></span>
+                  <span class="trat-desc"><span lang="es">Cera que retira el vello de raíz y cuida la piel.</span><span lang="en">Wax that removes hair from the root and is kind to skin.</span></span>
+                  <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
+                <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="depilación sugaring" data-en="sugaring hair removal">
+                  <span class="trat-nom">Sugaring</span>
+                  <span class="trat-desc"><span lang="es">Pasta natural de azúcar, suave con la piel.</span><span lang="en">Natural sugar paste, gentle on skin.</span></span>
+                  <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
+              </ul>
+            </div>
+          </div>
+
+          <div>
+            <div class="grupo">
+              <h3><span lang="es">Terapéuticos</span><span lang="en">Therapeutic</span></h3>
+              <ul>
+                <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="quiropraxia" data-en="a chiropractic session">
+                  <span class="trat-nom"><span lang="es">Quiropraxia</span><span lang="en">Chiropractic</span></span>
+                  <span class="trat-desc"><span lang="es">Trabajo sobre columna y articulaciones para aliviar dolores y ganar movilidad.</span><span lang="en">Work on the spine and joints to ease pain and improve movement.</span></span>
+                  <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
+                <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="drenaje linfático" data-en="lymphatic drainage">
+                  <span class="trat-nom"><span lang="es">Drenaje linfático</span><span lang="en">Lymphatic drainage</span></span>
+                  <span class="trat-desc"><span lang="es">Maniobras muy suaves que ayudan a reducir la retención de líquidos.</span><span lang="en">Very gentle strokes that help reduce fluid retention.</span></span>
+                  <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
+                <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="reflexología" data-en="reflexology">
+                  <span class="trat-nom"><span lang="es">Reflexología</span><span lang="en">Reflexology</span></span>
+                  <span class="trat-desc"><span lang="es">Presión en puntos de pies y manos.</span><span lang="en">Pressure on points of the feet and hands.</span></span>
+                  <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
+              </ul>
+            </div>
+
+            <div class="grupo">
+              <h3><span lang="es">Rostro y cuerpo</span><span lang="en">Face and body</span></h3>
+              <ul>
+                <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="limpieza facial" data-en="a facial cleansing">
+                  <span class="trat-nom"><span lang="es">Limpieza facial</span><span lang="en">Facial cleansing</span></span>
+                  <span class="trat-desc"><span lang="es">Limpieza profunda que saca impurezas y deja la piel fresca.</span><span lang="en">A deep clean that clears impurities and leaves skin fresh.</span></span>
+                  <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
+                <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="exfoliación e hidratación corporal" data-en="a body scrub and hydration">
+                  <span class="trat-nom"><span lang="es">Exfoliación e hidratación corporal</span><span lang="en">Body scrub and hydration</span></span>
+                  <span class="trat-desc"><span lang="es">Piel suave y nutrida en todo el cuerpo.</span><span lang="en">Soft, nourished skin all over.</span></span>
+                  <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
+                <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="masaje reductor" data-en="a contouring massage">
+                  <span class="trat-nom"><span lang="es">Masaje reductor</span><span lang="en">Contouring massage</span></span>
+                  <span class="trat-desc"><span lang="es">Masaje enérgico sobre zonas puntuales para modelar y activar la circulación.</span><span lang="en">Vigorous massage on specific areas to shape and boost circulation.</span></span>
+                  <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
+                <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="tratamiento anticelulitis" data-en="an anti-cellulite treatment">
+                  <span class="trat-nom"><span lang="es">Anticelulitis</span><span lang="en">Anti-cellulite</span></span>
+                  <span class="trat-desc"><span lang="es">Mejora el aspecto de la piel de naranja y tonifica.</span><span lang="en">Improves the look of dimpled skin and tones.</span></span>
+                  <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
+                <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="tratamiento para piernas cansadas" data-en="a tired legs treatment">
+                  <span class="trat-nom"><span lang="es">Piernas cansadas</span><span lang="en">Tired legs</span></span>
+                  <span class="trat-desc"><span lang="es">Alivia la pesadez y deja las piernas livianas.</span><span lang="en">Eases heaviness and leaves legs feeling light.</span></span>
+                  <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
+              </ul>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="frase">
+    <div class="sobre-escena aparece">
+      <p class="equipo" lang="es">No trabajo sola. En el equipo hay masajistas mujeres y varones, y todos hablamos español e inglés.</p>
+      <p class="equipo" lang="en">I don't work alone. The team includes women and men, and we all speak Spanish and English.</p>
+    </div>
+  </section>
+
+  <section class="seccion visita" id="visita" data-ancla>
+    <div class="ancho">
+      <div class="visita-texto sobre-escena aparece">
+        <h2><span lang="es">Cómo llegar</span><span lang="en">Find us</span></h2>
+        <address class="direccion">Tres Sargentos 421</address>
+        <p class="direccion-resto" lang="es">Piso 2, departamento 4. Microcentro, Buenos Aires.</p>
+        <p class="direccion-resto" lang="en">2nd floor, apartment 4. Microcentro, Buenos Aires.</p>
+        <a class="enlace fina" href="https://www.google.com/maps/search/?api=1&query=Tres+Sargentos+421%2C+Buenos+Aires" target="_blank" rel="noopener"><span lang="es">Abrir en Google Maps</span><span lang="en">Open in Google Maps</span></a>
+
+        <h3 class="fina"><span lang="es">Horario</span><span lang="en">Hours</span></h3>
+        <ul class="visita-lista" lang="es">
+          <li>Todos los días, de 9 a 21.</li>
+          <li>Siempre con turno previo.</li>
+          <li>En verano el horario puede cambiar. Consultá antes de venir.</li>
+        </ul>
+        <ul class="visita-lista" lang="en">
+          <li>Every day, 9 am to 9 pm.</li>
+          <li>By appointment only.</li>
+          <li>Hours can change in summer. Check before you come.</li>
+        </ul>
+
+        <h3 class="fina"><span lang="es">Contacto</span><span lang="en">Contact</span></h3>
+        <ul class="visita-lista">
+          <li><span class="etiqueta">WhatsApp</span> <a data-wa href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">11 2455-9977</span><span lang="en">+54 9 11 2455-9977</span></a></li>
+          <li><span class="etiqueta"><span lang="es">Teléfono fijo</span><span lang="en">Landline</span></span> <a href="tel:+541152227228"><span lang="es">011 5222-7228</span><span lang="en">+54 11 5222-7228</span></a></li>
+          <li><span class="etiqueta">Email</span> <a href="mailto:lucyspa.baires@gmail.com">lucyspa.baires@gmail.com</a></li>
+        </ul>
+
+        <figure class="foto inclinar">
+          <img src="fotos/sala.jpg" alt="" data-alt-es="Una sala de Lucy's Spa" data-alt-en="A treatment room at Lucy's Spa" data-muestra="https://images.unsplash.com/photo-1611920629515-3f76f8c36b37?auto=format&fit=crop&w=1300&q=70" onerror="fotoDeMuestra(this)">
+          <span class="nota"><span lang="es">Foto de muestra: fotos/sala.jpg</span><span lang="en">Sample photo: fotos/sala.jpg</span></span>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="cierre" id="cierre" data-ancla>
+    <div class="sobre-escena aparece">
+      <h2><span lang="es">¿Cuándo venís?</span><span lang="en">When suits you?</span></h2>
+      <p class="cierre-ciudad" lang="es">Te espero en Buenos Aires.</p>
+      <p class="cierre-ciudad" lang="en">I'll be waiting in Buenos Aires.</p>
+      <a class="btn fina" id="cierre-btn" data-wa href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Reservar por WhatsApp</span><span lang="en">Book on WhatsApp</span></a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <div class="ancho">
+    <div class="pie-fila">
+      <div>
+        <p>Lucy's Spa, Tres Sargentos 421, 2º 4, Microcentro, Buenos Aires.</p>
+        <p id="hora" hidden></p>
+        <span class="nota"><span lang="es">Las fotos son de muestra (Unsplash, licencia libre) hasta tener las de Danni.</span><span lang="en">Photos are samples (Unsplash, free licence) until Danni's own are ready.</span></span>
+      </div>
+      <a class="nota" href="index.html"><span lang="es">Ver todas las versiones</span><span lang="en">See all versions</span></a>
+      <button type="button" id="notas-btn">Ocultar notas de borrador</button>
+    </div>
+  </div>
+</footer>
+
+<a class="flota fina" id="flota" data-wa href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Reservar</span><span lang="en">Book</span></a>
+
+<script>
+(function () {
+  var raiz = document.documentElement;
+  var WHATSAPP = '5491124559977';
+  raiz.classList.add('con-js');
+
+  var textos = {
+    es: {
+      titulo: "Danni | Lucy's Spa, masajes y estética en Microcentro",
+      general: 'Hola Danni, quiero pedir un turno.',
+      tratamiento: 'Hola Danni, quiero pedir un turno para ',
+      muestra: 'Foto de muestra',
+      ocultar: 'Ocultar notas de borrador',
+      mostrar: 'Mostrar notas de borrador'
+    },
+    en: {
+      titulo: "Danni | Lucy's Spa, massage and skin care in downtown Buenos Aires",
+      general: "Hi Danni, I'd like to book an appointment.",
+      tratamiento: "Hi Danni, I'd like to book ",
+      muestra: 'Sample photo',
+      ocultar: 'Hide draft notes',
+      mostrar: 'Show draft notes'
+    }
+  };
+
+  function leer(clave) {
+    try { return localStorage.getItem(clave); } catch (e) { return null; }
+  }
+  function guardar(clave, valor) {
+    try { localStorage.setItem(clave, valor); } catch (e) {}
+  }
+  function enlaceWhatsApp(mensaje) {
+    return 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(mensaje);
+  }
+
+  var menosMovimiento = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* Si a los seis segundos la escena 3D no arrancó, se muestra la foto de respaldo */
+  setTimeout(function () {
+    if (!raiz.classList.contains('con-3d')) raiz.classList.add('sin-3d');
+  }, 6000);
+
+  if ('IntersectionObserver' in window) {
+    /* El botón fijo aparece cuando no hay otro botón de reserva a la vista */
+    var flota = document.getElementById('flota');
+    var aLaVista = new Set();
+    var ojo = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        if (e.isIntersecting) aLaVista.add(e.target); else aLaVista.delete(e.target);
+      });
+      if (aLaVista.size) flota.setAttribute('data-oculta', '');
+      else flota.removeAttribute('data-oculta');
+    });
+    ojo.observe(document.getElementById('acciones'));
+    ojo.observe(document.getElementById('cierre-btn'));
+
+    /* Cada bloque aparece una vez, al llegar */
+    var llegada = new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        if (e.isIntersecting) { e.target.classList.add('visto'); llegada.unobserve(e.target); }
+      });
+    }, { rootMargin: '0px 0px -12% 0px' });
+    document.querySelectorAll('.aparece').forEach(function (el) { llegada.observe(el); });
+  } else {
+    document.querySelectorAll('.aparece').forEach(function (el) { el.classList.add('visto'); });
+  }
+
+  /* Las fotos se inclinan hacia el mouse */
+  if (!menosMovimiento) {
+    document.querySelectorAll('.inclinar').forEach(function (el) {
+      el.addEventListener('pointermove', function (e) {
+        if (e.pointerType === 'touch') return;
+        var r = el.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - 0.5;
+        var y = (e.clientY - r.top) / r.height - 0.5;
+        el.style.transform = 'perspective(900px) rotateY(' + (x * 9).toFixed(2) + 'deg) rotateX(' + (-y * 9).toFixed(2) + 'deg) scale(1.02)';
+      });
+      el.addEventListener('pointerleave', function () { el.style.transform = ''; });
+    });
+  }
+
+  /* La hora de Buenos Aires, para quien escribe desde otro huso */
+  var hora = document.getElementById('hora');
+  function pintarHora() {
+    try {
+      var en = raiz.dataset.lang === 'en';
+      var partes = new Intl.DateTimeFormat(en ? 'en-US' : 'es-AR', {
+        timeZone: 'America/Argentina/Buenos_Aires', hour: 'numeric', minute: '2-digit', hour12: en
+      }).format(new Date());
+      if (en) hora.textContent = "It's " + partes + ' in Buenos Aires.';
+      else hora.textContent = (/^(1|01):/.test(partes) ? 'En Buenos Aires es la ' : 'En Buenos Aires son las ') + partes + '.';
+      hora.hidden = false;
+    } catch (e) { hora.hidden = true; }
+  }
+  setInterval(pintarHora, 30000);
+
+  var botonNotas = document.getElementById('notas-btn');
+  function pintarNotas() {
+    var t = textos[raiz.dataset.lang];
+    botonNotas.textContent = raiz.dataset.notas === 'off' ? t.mostrar : t.ocultar;
+  }
+
+  function ponerIdioma(idioma) {
+    var t = textos[idioma];
+    raiz.lang = idioma;
+    raiz.dataset.lang = idioma;
+    document.title = t.titulo;
+
+    document.querySelectorAll('[data-idioma]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.idioma === idioma));
+    });
+    document.querySelectorAll('a[data-wa]').forEach(function (a) {
+      a.href = enlaceWhatsApp(t.general);
+    });
+    document.querySelectorAll('a.trat').forEach(function (a) {
+      a.href = enlaceWhatsApp(t.tratamiento + a.dataset[idioma] + '.');
+    });
+    document.querySelectorAll('img[data-alt-es]').forEach(function (img) {
+      img.alt = img.dataset.esMuestra ? t.muestra : img.dataset[idioma === 'en' ? 'altEn' : 'altEs'];
+    });
+    pintarNotas();
+    pintarHora();
+  }
+
+  document.querySelectorAll('[data-idioma]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      ponerIdioma(b.dataset.idioma);
+      guardar('lucys-idioma', b.dataset.idioma);
+    });
+  });
+
+  botonNotas.addEventListener('click', function () {
+    raiz.dataset.notas = raiz.dataset.notas === 'off' ? 'on' : 'off';
+    guardar('lucys-notas', raiz.dataset.notas);
+    pintarNotas();
+  });
+
+  if (raiz.dataset.notas !== 'off' && leer('lucys-notas') === 'off') raiz.dataset.notas = 'off';
+  ponerIdioma(leer('lucys-idioma') === 'en' ? 'en' : 'es');
+})();
+</script>
+
+<!-- LA ESCENA 3D -->
+<script type="importmap">
+{
+  "imports": {
+    "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+    "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+  }
+}
+</script>
+<script type="module">
+import * as THREE from 'three';
+import { Reflector } from 'three/addons/objects/Reflector.js';
+import { mergeVertices } from 'three/addons/utils/BufferGeometryUtils.js';
+
+const raiz = document.documentElement;
+const lienzo = document.getElementById('escena');
+const quieto = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const enMiniatura = window.self !== window.top; // dentro de la vista previa de index.html
+const telefono = Math.min(window.innerWidth, window.innerHeight) < 600;
+
+let renderer;
+try {
+  renderer = new THREE.WebGLRenderer({ canvas: lienzo, antialias: true, powerPreference: 'high-performance' });
+} catch (e) {
+  renderer = null;
+}
+
+if (renderer) {
+  const FONDO = 0x070605;
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, enMiniatura ? 1 : telefono ? 1.5 : 2));
+  renderer.toneMapping = THREE.ACESFilmicToneMapping;
+  renderer.toneMappingExposure = 1.1;
+
+  const escena = new THREE.Scene();
+  escena.background = new THREE.Color(FONDO);
+  escena.fog = new THREE.FogExp2(FONDO, 0.032);
+
+  const camara = new THREE.PerspectiveCamera(35, 1, 0.1, 140);
+
+  /* Luz: una sala oscura con paneles cálidos, que es lo que se refleja en las piedras */
+  (function () {
+    const sala = new THREE.Scene();
+    sala.background = new THREE.Color(0x020202);
+    function panel(ancho, alto, color, fuerza, x, y, z) {
+      const material = new THREE.MeshBasicMaterial({ color: color, side: THREE.DoubleSide });
+      material.color.multiplyScalar(fuerza);
+      const m = new THREE.Mesh(new THREE.PlaneGeometry(ancho, alto), material);
+      m.position.set(x, y, z);
+      m.lookAt(0, 0, 0);
+      sala.add(m);
+    }
+    panel(7, 3.5, 0xffc296, 5, 8, 7, 6);     // luz principal, cálida, arriba a la derecha
+    panel(3, 12, 0xffd9b0, 3.5, -10, 3, -2); // tira lateral
+    panel(14, 3, 0xa9c9c6, 2.0, 0, 9, -8);   // un poco de frío desde atrás
+    panel(22, 1.2, 0xff9a5a, 3, 0, 0.6, -12); // resplandor bajo, como velas lejos
+    const generador = new THREE.PMREMGenerator(renderer);
+    escena.environment = generador.fromScene(sala, 0.04).texture;
+    generador.dispose();
+  })();
+
+  const vela = new THREE.PointLight(0xffa868, 15, 26, 2);
+  vela.position.set(-3.5, 2.6, 3.5);
+  escena.add(vela);
+
+  /* Piedras: esferas aplastadas y un poco irregulares, de basalto pulido */
+  function ruido(x, y, z, s) {
+    return Math.sin(x * 1.7 + s) * Math.sin(y * 2.1 + s * 1.3) * Math.sin(z * 1.9 + s * 0.7)
+      + 0.5 * Math.sin(x * 3.1 + y * 2.7 + z * 3.3 + s * 2.1);
+  }
+  function crearPiedra(tamano, semilla) {
+    let g = new THREE.IcosahedronGeometry(1, 20);
+    g.deleteAttribute('uv');
+    g.deleteAttribute('normal');
+    g = mergeVertices(g);
+    const p = g.attributes.position;
+    const v = new THREE.Vector3();
+    const aplastado = 0.42 + 0.05 * Math.sin(semilla * 3.7);
+    const fondo = 0.78 + 0.1 * Math.sin(semilla * 1.9);
+    for (let i = 0; i < p.count; i++) {
+      v.fromBufferAttribute(p, i);
+      const r = 1 + 0.04 * ruido(v.x * 0.8, v.y * 0.8, v.z * 0.8, semilla);
+      v.multiplyScalar(r);
+      v.y *= aplastado * (v.y < 0 ? 0.9 : 1);
+      v.z *= fondo;
+      p.setXYZ(i, v.x, v.y, v.z);
+    }
+    g.computeVertexNormals();
+    const material = new THREE.MeshPhysicalMaterial({
+      color: new THREE.Color(0x151312).offsetHSL(0, 0, 0.012 * Math.sin(semilla * 5.1)),
+      roughness: 0.3 + 0.1 * Math.abs(Math.sin(semilla * 2.3)),
+      metalness: 0,
+      clearcoat: 0.75,
+      clearcoatRoughness: 0.16,
+      envMapIntensity: 1.25
+    });
+    const piedra = new THREE.Mesh(g, material);
+    piedra.scale.setScalar(tamano);
+    piedra.userData.alto = tamano * aplastado;
+    return piedra;
+  }
+
+  const TAMANOS = [1.0, 0.8, 0.62, 0.47, 0.34, 0.55, 0.4]; // las cinco primeras forman la pila
+  const piedras = TAMANOS.map(function (t, i) {
+    const m = crearPiedra(t, 1.37 + i * 2.11);
+    escena.add(m);
+    return m;
+  });
+  const N = piedras.length;
+
+  /* Agua: un espejo oscuro con ondas. Refleja la escena y la deforma. */
+  const AguaShader = {
+    name: 'AguaShader',
+    uniforms: {
+      color: { value: null },
+      tDiffuse: { value: null },
+      textureMatrix: { value: null },
+      uTiempo: { value: 0 },
+      uOndas: { value: [0, 1, 2, 3, 4, 5].map(function () { return new THREE.Vector4(0, 0, -100, 0); }) },
+      uFondo: { value: new THREE.Vector3(7 / 255, 6 / 255, 5 / 255) }, // el color del fondo, tal como se ve en pantalla
+      uHondo: { value: new THREE.Color(0x06090a) }
+    },
+    vertexShader: /* glsl */`
+      uniform mat4 textureMatrix;
+      varying vec4 vUv;
+      varying vec3 vMundo;
+      void main() {
+        vUv = textureMatrix * vec4(position, 1.0);
+        vec4 mundo = modelMatrix * vec4(position, 1.0);
+        vMundo = mundo.xyz;
+        gl_Position = projectionMatrix * viewMatrix * mundo;
+      }
+    `,
+    fragmentShader: /* glsl */`
+      uniform vec3 color;
+      uniform sampler2D tDiffuse;
+      uniform float uTiempo;
+      uniform vec4 uOndas[6];
+      uniform vec3 uFondo;
+      uniform vec3 uHondo;
+      varying vec4 vUv;
+      varying vec3 vMundo;
+      void main() {
+        vec2 p = vMundo.xz;
+        vec2 d = vec2(0.0);
+        d += 0.010 * vec2(cos(p.x * 1.7 + uTiempo * 0.6), sin(p.y * 1.3 - uTiempo * 0.5));
+        d += 0.007 * vec2(sin(p.y * 2.9 + uTiempo * 0.8 + p.x), cos(p.x * 2.3 - uTiempo * 0.7 + p.y));
+        for (int i = 0; i < 6; i++) {
+          vec4 o = uOndas[i];
+          float t = uTiempo - o.z;
+          if (t > 0.0 && t < 9.0) {
+            vec2 r = p - o.xy;
+            float dist = length(r) + 0.0001;
+            float frente = dist - t * 1.5;
+            float fuerza = exp(-frente * frente * 1.1) * exp(-t * 0.5) * o.w;
+            d += (r / dist) * sin(frente * 7.0) * fuerza * 0.085;
+          }
+        }
+        vec3 n = normalize(vec3(d.x * 7.0, 1.0, d.y * 7.0));
+        vec3 v = normalize(cameraPosition - vMundo);
+        float fresnel = pow(1.0 - max(dot(v, n), 0.0), 3.0);
+        vec4 uv = vUv;
+        uv.xy += d * uv.w;
+        vec3 reflejo = texture2DProj(tDiffuse, uv).rgb * color;
+        vec3 c = mix(uHondo, reflejo, clamp(0.4 + 0.6 * fresnel, 0.0, 1.0));
+        float brillo = max(0.0, length(d) * 10.0 - 0.3);
+        c += vec3(1.0, 0.76, 0.5) * brillo * brillo * 0.35;
+        gl_FragColor = vec4(c, 1.0);
+        #include <tonemapping_fragment>
+        #include <colorspace_fragment>
+        // a lo lejos el agua se funde con el fondo, sin línea de horizonte
+        float lejos = smoothstep(10.0, 34.0, distance(cameraPosition, vMundo));
+        gl_FragColor.rgb = mix(gl_FragColor.rgb, uFondo, lejos);
+      }
+    `
+  };
+  const definicion = enMiniatura || telefono ? 512 : 1024;
+  const agua = new Reflector(new THREE.PlaneGeometry(200, 200), {
+    textureWidth: definicion,
+    textureHeight: definicion,
+    color: 0xc9cfd2,
+    clipBias: 0.003,
+    shader: AguaShader
+  });
+  agua.rotation.x = -Math.PI / 2;
+  escena.add(agua);
+  const uAgua = agua.material.uniforms;
+  let ondaN = 0;
+  let tiempo = 0;
+  function onda(x, z, fuerza) {
+    if (quieto) return;
+    uAgua.uOndas.value[ondaN++ % 6].set(x, z, tiempo, fuerza);
+  }
+
+  /* Luces lejanas fuera de foco, y vapor sobre la pila */
+  const mancha = (function () {
+    const c = document.createElement('canvas');
+    c.width = c.height = 128;
+    const ctx = c.getContext('2d');
+    const g = ctx.createRadialGradient(64, 64, 0, 64, 64, 64);
+    g.addColorStop(0, 'rgba(255,255,255,1)');
+    g.addColorStop(0.35, 'rgba(255,255,255,0.5)');
+    g.addColorStop(1, 'rgba(255,255,255,0)');
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, 128, 128);
+    const t = new THREE.CanvasTexture(c);
+    t.colorSpace = THREE.SRGBColorSpace;
+    return t;
+  })();
+
+  const lejanas = new THREE.Group();
+  escena.add(lejanas);
+  const luces = [];
+  for (let i = 0; i < 16; i++) {
+    const a = Math.sin(i * 12.9898) * 43758.5453; const r1 = a - Math.floor(a);
+    const b = Math.sin(i * 78.233 + 1.7) * 12543.123; const r2 = b - Math.floor(b);
+    const c = Math.sin(i * 39.425 + 4.1) * 9631.77; const r3 = c - Math.floor(c);
+    const material = new THREE.SpriteMaterial({
+      map: mancha,
+      color: new THREE.Color().setHSL(0.07 + r3 * 0.04, 0.85, 0.55),
+      transparent: true,
+      opacity: 0.1 + r2 * 0.22,
+      blending: THREE.AdditiveBlending,
+      depthWrite: false,
+      fog: false
+    });
+    const s = new THREE.Sprite(material);
+    s.position.set((r1 - 0.5) * 44, 0.8 + r2 * 7.5, -20 - r3 * 16);
+    s.scale.setScalar(1.2 + r3 * 2.6);
+    s.userData.base = material.opacity;
+    s.userData.fase = r1 * 6.28;
+    lejanas.add(s);
+    luces.push(s);
+  }
+
+  const VAPOR = 34;
+  const vaporPos = new Float32Array(VAPOR * 3);
+  const vaporGeo = new THREE.BufferGeometry();
+  vaporGeo.setAttribute('position', new THREE.BufferAttribute(vaporPos, 3));
+  const vaporMat = new THREE.PointsMaterial({
+    map: mancha, color: 0xffe6cc, size: 1.9, sizeAttenuation: true,
+    transparent: true, opacity: 0.05, blending: THREE.AdditiveBlending, depthWrite: false, fog: false
+  });
+  const vapor = new THREE.Points(vaporGeo, vaporMat);
+  vapor.frustumCulled = false;
+  escena.add(vapor);
+
+  /* Coreografía. Cinco momentos, uno por sección:
+     0 la pila en equilibrio, 1 las piedras flotan, 2 y 3 un camino sobre el agua
+     (la cámara lo recorre), 4 un círculo alrededor de la piedra grande. */
+  let angosto = false;
+  let poses = [];
+  let camaras = [];
+  let pilaX = 2.6;
+  const CENTRO_FINAL = new THREE.Vector3(0, 0, -12.3);
+
+  function armarPoses() {
+    angosto = lienzo.clientWidth / Math.max(1, lienzo.clientHeight) < 0.85;
+    const caminoX = angosto ? 0 : 2.7;
+    pilaX = angosto ? 0 : 3.0;
+    const alto = piedras.map(function (m) { return m.userData.alto; });
+
+    const pila = [];
+    let y = alto[0] * 0.55;
+    const corrida = [0, 0.09, -0.07, 0.05, -0.03];
+    for (let i = 0; i < 5; i++) {
+      if (i > 0) y += (alto[i - 1] + alto[i]) * 0.9;
+      pila.push({ p: [pilaX + corrida[i], y, corrida[i] * 0.6], r: [0, i * 1.3, (i % 2 ? 1 : -1) * 0.035 * i] });
+    }
+    pila.push({ p: [pilaX - (angosto ? 1.25 : 2.0), alto[5] * 0.3, 1.0], r: [0, 0.6, 0.05] });
+    pila.push({ p: [pilaX + (angosto ? 1.1 : 1.55), alto[6] * 0.3, 1.5], r: [0, 2.1, -0.04] });
+
+    const flotaBase = [[-3.6, 1.3, 0], [-2.0, 2.45, -1.0], [-4.5, 2.8, -2.0], [-2.7, 0.95, 1.2], [-1.3, 1.7, 0.6], [-5.0, 1.65, 1.0], [-3.2, 3.35, 0.3]];
+    const flota = flotaBase.map(function (q, i) {
+      return { p: angosto ? [q[0] * 0.36 + 1.2, q[1] + 0.5, q[2]] : q, r: [0.5 * Math.sin(i * 2.3), i * 0.9, 0.4 * Math.cos(i * 1.7)] };
+    });
+
+    const orden = [0, 5, 1, 6, 2, 3, 4];
+    const camino = [];
+    orden.forEach(function (i, j) {
+      camino[i] = { p: [caminoX + (j % 2 ? 0.62 : -0.62), alto[i] * 0.35, 3 - j * 2.7], r: [0, j * 0.8, 0] };
+    });
+
+    // un anillo de piedras alrededor del último llamado; el centro queda libre para el texto
+    const radio = angosto ? 1.75 : 3.4;
+    const lugarEnAnillo = [0, 3, 5, 1, 4, 6, 2];
+    const circulo = piedras.map(function (m, i) {
+      const ang = lugarEnAnillo[i] / N * Math.PI * 2 + 0.45;
+      return { p: [CENTRO_FINAL.x + Math.cos(ang) * radio, alto[i] * 0.35, CENTRO_FINAL.z + Math.sin(ang) * radio], r: [0, -ang, 0] };
+    });
+
+    poses = [pila, flota, camino, camino, circulo];
+
+    camaras = angosto ? [
+      { p: [0, 2.0, 12.5], m: [0, -0.95, 0] },
+      { p: [0, 2.1, 13], m: [0, 1.3, 0] },
+      { p: [0, 1.7, 9.5], m: [0, 0.2, -5] },
+      { p: [0, 1.8, -0.5], m: [0, 0.2, -11] },
+      { p: [0, 11.5, -4.6], m: [0, 0, -12.3] }
+    ] : [
+      { p: [0, 1.7, 8.4], m: [0, 1.3, 0] },
+      { p: [-0.7, 2.0, 8.8], m: [-0.4, 1.6, 0] },
+      { p: [0.1, 1.35, 7.6], m: [0.7, 0.25, -5] },
+      { p: [-0.4, 1.5, -1.5], m: [0.1, 0.2, -11] },
+      { p: [0, 7.4, -3.6], m: [0, 0, -12.5] }
+    ];
+  }
+
+  /* En qué momento estamos, según el scroll: un número entre 0 y 4 */
+  const anclas = Array.prototype.slice.call(document.querySelectorAll('[data-ancla]'));
+  let cortes = [];
+  function medir() {
+    const maximo = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
+    cortes = anclas.map(function (el, i) {
+      if (i === 0) return 0;
+      if (i === anclas.length - 1) return maximo;
+      const arriba = el.getBoundingClientRect().top + window.scrollY - window.innerHeight * 0.3;
+      return Math.min(arriba, maximo - (anclas.length - 1 - i));
+    });
+    for (let i = 1; i < cortes.length; i++) cortes[i] = Math.max(cortes[i], cortes[i - 1] + 1);
+  }
+  function suave(x) { x = Math.min(1, Math.max(0, x)); return x * x * x * (x * (x * 6 - 15) + 10); }
+  function momento() {
+    const y = window.scrollY;
+    for (let i = cortes.length - 2; i >= 0; i--) {
+      if (y >= cortes[i]) return i + Math.min(1, (y - cortes[i]) / (cortes[i + 1] - cortes[i]));
+    }
+    return 0;
+  }
+
+  function ajustarTamano() {
+    const w = lienzo.clientWidth, h = lienzo.clientHeight;
+    renderer.setSize(w, h, false);
+    camara.aspect = w / h;
+    camara.updateProjectionMatrix();
+    armarPoses();
+    medir();
+  }
+  window.addEventListener('resize', ajustarTamano);
+  if ('ResizeObserver' in window) new ResizeObserver(medir).observe(document.body);
+  ajustarTamano();
+
+  /* El mouse mueve apenas la cámara y deja ondas en el agua */
+  const puntero = new THREE.Vector2(0, 0);
+  const rayo = new THREE.Raycaster();
+  const plano = new THREE.Plane(new THREE.Vector3(0, 1, 0), 0);
+  const toque = new THREE.Vector3();
+  const ultimaOnda = new THREE.Vector3(999, 0, 999);
+  let ultimaOndaT = -10;
+  function alAgua(e, fuerza, siempre) {
+    puntero.set(e.clientX / window.innerWidth * 2 - 1, -(e.clientY / window.innerHeight) * 2 + 1);
+    rayo.setFromCamera(puntero, camara);
+    if (!rayo.ray.intersectPlane(plano, toque)) return;
+    if (toque.distanceTo(camara.position) > 30) return;
+    if (siempre || (toque.distanceTo(ultimaOnda) > 0.9 && tiempo - ultimaOndaT > 0.22)) {
+      onda(toque.x, toque.z, fuerza);
+      ultimaOnda.copy(toque);
+      ultimaOndaT = tiempo;
+    }
+  }
+  window.addEventListener('pointermove', function (e) { alAgua(e, e.pointerType === 'touch' ? 0.5 : 0.4, false); }, { passive: true });
+  window.addEventListener('pointerdown', function (e) { alAgua(e, 1, true); }, { passive: true });
+
+  /* Cuadro a cuadro */
+  const reloj = new THREE.Clock();
+  const actual = piedras.map(function () { return { p: new THREE.Vector3(), r: new THREE.Vector3() }; });
+  const camP = new THREE.Vector3();
+  const camM = new THREE.Vector3();
+  const a = new THREE.Vector3(), b = new THREE.Vector3(), objetivo = new THREE.Vector3(), giro = new THREE.Vector3();
+  const cayo = piedras.map(function () { return false; });
+  let primero = true;
+  let saltear = false;
+  let proximaOnda = 4;
+
+  function cuadro() {
+    requestAnimationFrame(cuadro);
+    if (document.hidden) return;
+    if (enMiniatura) { saltear = !saltear; if (saltear) return; }
+
+    const dt = Math.min(reloj.getDelta(), 0.05);
+    if (!quieto) tiempo += dt;
+    const e = Math.min(momento(), poses.length - 1 - 0.0001);
+    const k = primero || quieto ? 1 : 1 - Math.exp(-dt * 4.5);
+    const pesoFlota = Math.max(0, 1 - Math.abs(e - 1));
+    const pesoPila = Math.max(0, 1 - e);
+
+    const j = Math.min(Math.floor(e), poses.length - 2);
+    const f = suave(e - j);
+    for (let i = 0; i < N; i++) {
+      const desde = poses[j][i], hasta = poses[j + 1][i];
+      a.fromArray(desde.p);
+      b.fromArray(hasta.p);
+      // en el paso de un momento a otro, las piedras hacen un arco por el aire
+      const salto = Math.min(1, a.distanceTo(b) / 3);
+      objetivo.lerpVectors(a, b, f);
+      objetivo.y += Math.sin(f * Math.PI) * 0.9 * salto;
+      objetivo.y += Math.sin(tiempo * 0.6 + i * 2.1) * 0.13 * pesoFlota;
+      a.fromArray(desde.r);
+      b.fromArray(hasta.r);
+      giro.lerpVectors(a, b, f);
+      giro.x += Math.sin(tiempo * 0.23 + i * 1.3) * 0.5 * pesoFlota;
+      giro.y += Math.sin(tiempo * 0.17 + i * 1.9) * 0.9 * pesoFlota;
+
+      actual[i].p.lerp(objetivo, k);
+      actual[i].r.lerp(giro, k);
+
+      // entrada: las piedras caen de a una y se apilan
+      let caida = 0;
+      if (!quieto) {
+        const t = (tiempo - 0.25 - i * 0.24) / 1.25;
+        const c = Math.min(1, Math.max(0, t));
+        caida = Math.pow(1 - c, 3) * 9;
+        if (c >= 1 && !cayo[i]) {
+          cayo[i] = true;
+          if (pesoPila > 0.5) onda(actual[i].p.x, actual[i].p.z, i === 0 ? 1.1 : 0.5);
+        }
+      }
+      piedras[i].position.set(actual[i].p.x, actual[i].p.y + caida, actual[i].p.z);
+      piedras[i].rotation.set(actual[i].r.x, actual[i].r.y, actual[i].r.z);
+    }
+
+    const kc = primero || quieto ? 1 : 1 - Math.exp(-dt * 3);
+    a.fromArray(camaras[j].p);
+    b.fromArray(camaras[j + 1].p);
+    objetivo.lerpVectors(a, b, f);
+    objetivo.x += puntero.x * 0.4;
+    objetivo.y += puntero.y * 0.16;
+    camP.lerp(objetivo, kc);
+    a.fromArray(camaras[j].m);
+    b.fromArray(camaras[j + 1].m);
+    objetivo.lerpVectors(a, b, f);
+    camM.lerp(objetivo, kc);
+    camara.position.copy(camP);
+    camara.lookAt(camM);
+
+    // ondas solas: bajo la pila al principio, en el centro del círculo al final
+    if (tiempo > proximaOnda) {
+      proximaOnda = tiempo + 3.6;
+      if (e < 0.5) onda(pilaX, 0, 0.55);
+      else if (e > 3.5) onda(CENTRO_FINAL.x, CENTRO_FINAL.z, 0.9);
+    }
+
+    lejanas.position.z = camP.z;
+    lejanas.position.x = camP.x * 0.5;
+    for (let i = 0; i < luces.length; i++) {
+      luces[i].material.opacity = luces[i].userData.base * (0.75 + 0.25 * Math.sin(tiempo * 0.9 + luces[i].userData.fase));
+    }
+    vela.intensity = 15 + Math.sin(tiempo * 2.3) * 2.2 + Math.sin(tiempo * 5.1) * 1.2;
+
+    vaporMat.opacity = 0.055 * pesoPila * Math.min(1, tiempo / 3);
+    for (let i = 0; i < VAPOR; i++) {
+      const vida = ((tiempo * 0.07 + i / VAPOR) % 1);
+      const ang = i * 2.399;
+      vaporPos[i * 3] = pilaX + Math.cos(ang) * (0.35 + vida * 0.9) + Math.sin(tiempo * 0.3 + i) * 0.2;
+      vaporPos[i * 3 + 1] = 0.3 + vida * 5.2;
+      vaporPos[i * 3 + 2] = Math.sin(ang) * (0.35 + vida * 0.9) - 0.4;
+    }
+    vaporGeo.attributes.position.needsUpdate = true;
+
+    uAgua.uTiempo.value = tiempo;
+    renderer.render(escena, camara);
+
+    if (primero) {
+      primero = false;
+      raiz.classList.remove('sin-3d');
+      raiz.classList.add('con-3d');
+    }
+  }
+  cuadro();
+} else {
+  raiz.classList.add('sin-3d');
+}
+</script>
+
+</body>
+</html>

@@ -3,23 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Lucy's Spa | Dos versiones de la página de Danni</title>
-<!-- Borrador: que los buscadores no lo indexen. Esta portada es solo para elegir entre las dos versiones. -->
+<title>Lucy's Spa | Tres versiones de la página de Danni</title>
+<!-- Borrador: que los buscadores no lo indexen. Esta portada es solo para elegir entre las versiones. -->
 <meta name="robots" content="noindex">
-<meta name="description" content="Dos versiones de la página de Danni y Lucy's Spa, con el mismo contenido y distinto diseño.">
+<meta name="description" content="Tres versiones de la página de Danni y Lucy's Spa, con el mismo contenido y distinto diseño.">
 
 <!--
   PORTADA DE MUESTRA
-  Muestra las dos versiones de la página de Danni y enlaza a cada una:
+  Muestra las tres versiones de la página de Danni y enlaza a cada una:
     oscuro.html   versión oscura
     claro.html    versión clara
+    lujo.html     versión 3D
   Las vistas previas son las páginas reales en miniatura, así que siempre están al día.
   Cuando se elija una versión, esa pasa a llamarse index.html y esta portada se borra.
 -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400&family=Figtree:wght@400;500;600&family=Marcellus&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:opsz,wght@6..96,400&family=Cormorant+Garamond:wght@400&family=Figtree:wght@400;500;600&family=Marcellus&display=swap" rel="stylesheet">
 
 <style>
   :root {
@@ -54,7 +55,7 @@
 
   :focus-visible { outline: 2px solid var(--tinta); outline-offset: 3px; }
 
-  .ancho { max-width: 82rem; margin-inline: auto; padding-inline: var(--borde); }
+  .ancho { max-width: 96rem; margin-inline: auto; padding-inline: var(--borde); }
 
   .barra { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.5rem; }
   .marca { font-weight: 600; }
@@ -83,8 +84,8 @@
 
   .versiones {
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: clamp(1.25rem, 3vw, 2.25rem);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: clamp(1.25rem, 2.2vw, 2rem);
     padding-bottom: clamp(3rem, 7vw, 5rem);
   }
 
@@ -104,6 +105,7 @@
   .vista { position: relative; aspect-ratio: 16 / 10; overflow: hidden; border-bottom: 1px solid var(--linea); }
   .vista-oscura { background: #0D1512; }
   .vista-clara { background: #1E1510; }
+  .vista-lujo { background: #070605; }
   .vista iframe {
     position: absolute;
     top: 0;
@@ -120,6 +122,7 @@
   .version h2 { font-size: 2rem; line-height: 1.15; font-weight: 400; }
   .version-oscura h2 { font-family: "Cormorant Garamond", Georgia, serif; font-size: 2.35rem; }
   .version-clara h2 { font-family: "Marcellus", Georgia, serif; }
+  .version-lujo h2 { font-family: "Bodoni Moda", Didot, Georgia, serif; }
   .version h2 a { text-decoration: none; }
   /* Toda la tarjeta es el enlace */
   .version h2 a::after { content: ""; position: absolute; inset: 0; z-index: 1; }
@@ -139,6 +142,9 @@
 
   .pie { padding-block: 1.5rem 3rem; border-top: 1px solid var(--linea); color: var(--gris); font-size: 0.92rem; }
 
+  @media (max-width: 78rem) {
+    .versiones { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
   @media (max-width: 52rem) {
     .versiones { grid-template-columns: minmax(0, 1fr); }
   }
@@ -158,9 +164,9 @@
 <main class="ancho">
 
   <div class="cabeza">
-    <h1><span lang="es">Dos versiones de la página de Danni</span><span lang="en">Two versions of Danni's page</span></h1>
-    <p lang="es">Los mismos textos, los mismos tratamientos y el mismo WhatsApp. Lo que cambia es el diseño. Abrí las dos y elegí la que más te guste.</p>
-    <p lang="en">The same words, the same treatments and the same WhatsApp. Only the design changes. Open both and pick the one you like best.</p>
+    <h1><span lang="es">Tres versiones de la página de Danni</span><span lang="en">Three versions of Danni's page</span></h1>
+    <p lang="es">Los mismos textos, los mismos tratamientos y el mismo WhatsApp. Lo que cambia es el diseño. Abrí las tres y elegí la que más te guste.</p>
+    <p lang="en">The same words, the same treatments and the same WhatsApp. Only the design changes. Open all three and pick the one you like best.</p>
   </div>
 
   <div class="versiones">
@@ -189,6 +195,18 @@
       </div>
     </article>
 
+    <article class="version version-lujo">
+      <div class="vista vista-lujo">
+        <iframe src="lujo.html" title="" tabindex="-1" aria-hidden="true" loading="lazy"></iframe>
+      </div>
+      <div class="version-texto">
+        <h2><a href="lujo.html"><span lang="es">Versión 3D</span><span lang="en">3D version</span></a></h2>
+        <p lang="es">Piedras calientes sobre agua, en 3D. La escena se mueve con el scroll y el agua responde al mouse o al dedo.</p>
+        <p lang="en">Hot stones on water, in 3D. The scene moves as you scroll and the water responds to your mouse or finger.</p>
+        <span class="abrir" aria-hidden="true"><span lang="es">Abrir la versión 3D</span><span lang="en">Open the 3D version</span></span>
+      </div>
+    </article>
+
   </div>
 
 </main>
@@ -204,8 +222,8 @@
 (function () {
   var raiz = document.documentElement;
   var titulos = {
-    es: "Lucy's Spa | Dos versiones de la página de Danni",
-    en: "Lucy's Spa | Two versions of Danni's page"
+    es: "Lucy's Spa | Tres versiones de la página de Danni",
+    en: "Lucy's Spa | Three versions of Danni's page"
   };
 
   function leer(clave) {
