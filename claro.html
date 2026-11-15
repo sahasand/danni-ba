@@ -1,0 +1,1018 @@
+<!doctype html>
+<html lang="es" data-lang="es" data-notas="on">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Danni | Lucy's Spa, masajes y estética en Microcentro</title>
+<!-- Borrador: que los buscadores no lo indexen todavía. Borrar esta línea cuando la página sea la definitiva. -->
+<meta name="robots" content="noindex">
+<meta name="description" content="Danni, dueña de Lucy's Spa. Diez años de masajes y estética en el Microcentro de Buenos Aires. Atención en español y en inglés.">
+
+<!--
+  VERSIÓN CLARA de la página de Danni. La versión oscura es oscuro.html.
+  La portada con las dos versiones es index.html.
+  Las dos usan los mismos textos, el mismo WhatsApp y las mismas fotos.
+
+  CÓMO EDITAR ESTA PÁGINA
+
+  Textos: cada texto está dos veces, una con lang="es" y otra con lang="en".
+  Cambiá las dos.
+
+  Fotos: hoy se ven fotos de muestra (Unsplash, licencia libre). Guardá las fotos
+  reales en la carpeta "fotos" con estos nombres y reemplazan solas a las de muestra:
+    fotos/portada.jpg    fondo de la portada (horizontal, oscura si se puede)
+    fotos/danni.jpg      retrato de Danni (vertical), va en el óvalo de la portada
+    fotos/ambiente.jpg   detalle o ambiente del spa
+    fotos/sala.jpg       una sala del spa
+
+  Tratamientos: cada tarjeta es un <article class="trat">. El grupo va en data-grupo
+  y el texto que se manda por WhatsApp va en data-es y data-en.
+
+  Notas de borrador: las etiquetas punteadas son avisos para Danni.
+  Para sacarlas del todo, cambiá data-notas="on" por data-notas="off" en la etiqueta <html>.
+-->
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;500;600&family=Marcellus&display=swap" rel="stylesheet">
+
+<script>
+  /* Si no existe la foto real en la carpeta "fotos", se usa la de muestra */
+  function fotoDeMuestra(img) {
+    var marco = img.closest('.foto');
+    var muestra = img.dataset.muestra;
+    if (muestra && !img.dataset.esMuestra) {
+      img.dataset.esMuestra = '1';
+      img.alt = document.documentElement.lang === 'en' ? 'Sample photo' : 'Foto de muestra';
+      marco.classList.add('muestra');
+      img.src = muestra;
+    } else {
+      marco.classList.add('vacia');
+      img.remove();
+    }
+  }
+</script>
+
+<style>
+  :root {
+    --verde: #0A6E64;
+    --hondo: #0B3F39;
+    --papel: #FBF8F3;
+    --arena: #F1EBE1;
+    --tinta: #26302D;
+    --gris: #5D6965;
+    --linea: #E0D7C9;
+    --crema: #F4EFE8;
+    --cafe: #1E1510;
+    --wa: #1F9D55;
+
+    --titulos: "Marcellus", "Cormorant Garamond", Georgia, serif;
+    --texto: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+    --borde: clamp(1.25rem, 3.2vw, 2.5rem);
+    --foco: var(--verde);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+
+  html { background: var(--papel); scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+  body {
+    margin: 0;
+    background: var(--papel);
+    color: var(--tinta);
+    font-family: var(--texto);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+
+  /* Idiomas: se muestra uno solo */
+  html[data-lang="es"] body [lang="en"],
+  html[data-lang="en"] body [lang="es"] { display: none !important; }
+
+  /* Notas de borrador */
+  html[data-notas="off"] body .nota { display: none !important; }
+
+  [hidden] { display: none !important; }
+
+  img { display: block; max-width: 100%; }
+  a { color: inherit; }
+  p { margin: 0 0 1em; }
+  h1, h2, h3 { margin: 0; font-family: var(--titulos); font-weight: 400; text-wrap: balance; }
+  ul { list-style: none; margin: 0; padding: 0; }
+
+  :focus-visible { outline: 2px solid var(--foco); outline-offset: 3px; }
+
+  .ancho { max-width: calc(1240px + 2 * var(--borde)); margin-inline: auto; padding-inline: var(--borde); }
+
+  section[id] { scroll-margin-top: 5.5rem; }
+
+  /* Rótulo chico sobre cada título */
+  .rotulo {
+    margin: 0 0 1rem;
+    color: var(--gris);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.17em;
+    text-transform: uppercase;
+  }
+
+  .ico { width: 1.15em; height: 1.15em; flex: none; fill: none; stroke: currentColor; stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.55em;
+    padding: 0.95em 1.45em;
+    border: 1.5px solid transparent;
+    border-radius: 999px;
+    font: inherit;
+    font-weight: 600;
+    font-size: 1rem;
+    line-height: 1.2;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  .btn-wa { background: var(--wa); color: #fff; }
+  .btn-wa:hover { background: #18834a; }
+  .btn-verde { background: var(--verde); color: #fff; }
+  .btn-verde:hover { background: var(--hondo); }
+  .btn-linea { border-color: currentColor; background: transparent; }
+  .btn-linea:hover { background: var(--crema); border-color: var(--crema); color: var(--hondo); }
+
+  .nota {
+    display: inline-block;
+    padding: 0.35em 0.7em;
+    border: 1px dashed var(--gris);
+    border-radius: 6px;
+    color: var(--gris);
+    font-family: var(--texto);
+    font-size: 0.8rem;
+    font-weight: 400;
+    line-height: 1.35;
+    letter-spacing: 0;
+    text-transform: none;
+    text-decoration: none;
+  }
+
+  /* Fotos */
+  .foto { position: relative; margin: 0; overflow: hidden; background: var(--arena); }
+  .foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+  .foto.vacia { display: none; }
+  .foto .nota, .nota-foto {
+    position: absolute;
+    right: 0.75rem;
+    bottom: 0.75rem;
+    z-index: 2;
+    border-color: rgba(244, 239, 232, 0.6);
+    background: rgba(30, 21, 16, 0.72);
+    color: var(--crema);
+  }
+  .foto:not(.muestra) .nota, .foto:not(.muestra) + .nota-foto { display: none; }
+
+  /* Cabecera fija */
+  .cabeza {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    border-bottom: 1px solid var(--linea);
+    background: rgba(251, 248, 243, 0.94);
+    backdrop-filter: blur(10px);
+  }
+  .cabeza-fila { display: flex; align-items: center; gap: 0.75rem; min-height: 4.75rem; }
+  .marca { margin-right: auto; color: var(--verde); font-family: var(--titulos); font-size: 1.55rem; line-height: 1; text-decoration: none; }
+  .marca span { display: block; margin-top: 0.4rem; color: var(--gris); font-family: var(--texto); font-size: 0.6rem; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase; }
+
+  .idiomas { display: flex; gap: 0.15rem; padding: 0.2rem; border: 1px solid var(--linea); border-radius: 999px; }
+  .idiomas button {
+    appearance: none;
+    border: 0;
+    border-radius: 999px;
+    margin: 0;
+    padding: 0.42em 0.85em;
+    background: none;
+    color: var(--gris);
+    font: inherit;
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+  }
+  .idiomas button[aria-pressed="true"] { background: var(--verde); color: #fff; }
+
+  .menu-btn {
+    appearance: none;
+    border: 1px solid var(--linea);
+    border-radius: 12px;
+    padding: 0.55em 0.85em;
+    background: var(--papel);
+    color: var(--tinta);
+    font: inherit;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+  .menu {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 100%;
+    border-bottom: 1px solid var(--linea);
+    background: var(--papel);
+    box-shadow: 0 24px 40px -24px rgba(30, 21, 16, 0.35);
+  }
+  .menu .ancho { padding-block: 0.5rem 1.25rem; }
+  .menu a:not(.btn) {
+    display: block;
+    padding: 0.95rem 0;
+    border-bottom: 1px solid var(--linea);
+    font-size: 0.8rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+  .menu a:not(.btn):hover { color: var(--verde); }
+  .menu .btn { width: 100%; margin-top: 1rem; }
+
+  /* Portada */
+  .portada { position: relative; background: var(--cafe); color: var(--crema); isolation: isolate; --foco: var(--crema); }
+  .portada-fondo { position: absolute; inset: 0; z-index: -2; background: var(--cafe); }
+  .portada::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: linear-gradient(90deg, rgba(30, 21, 16, 0.84) 0%, rgba(30, 21, 16, 0.66) 100%);
+  }
+  .portada > .nota-foto { top: 0.75rem; bottom: auto; }
+  .portada-grilla {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 6fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: center;
+    padding-block: clamp(3rem, 7vw, 5rem) calc(clamp(3rem, 7vw, 5rem) + 5rem);
+  }
+  .retrato { position: relative; text-align: center; }
+  .ovalo {
+    width: min(100%, 17.5rem);
+    aspect-ratio: 5 / 7;
+    margin-inline: auto;
+    border-radius: 999px;
+    outline: 1.5px solid rgba(244, 239, 232, 0.85);
+    outline-offset: 10px;
+  }
+  .retrato .nota-foto { position: static; display: inline-block; margin-top: 1.5rem; }
+  .portada .rotulo { color: rgba(244, 239, 232, 0.8); }
+  .portada h1 { font-size: clamp(2.3rem, 4.9vw, 3.9rem); line-height: 1.14; }
+  .portada h1 .nombre { display: block; }
+  .bajada { max-width: 34rem; margin: 1.25rem 0 0; font-size: 1.12rem; }
+  .acciones { display: flex; flex-wrap: wrap; gap: 0.75rem; margin: 1.9rem 0 1.6rem; }
+  .puntos { display: flex; flex-wrap: wrap; gap: 0.35rem 1.75rem; font-size: 0.95rem; }
+  .puntos li { display: flex; align-items: center; gap: 0.6rem; }
+  .puntos li::before { content: ""; width: 0.38rem; height: 0.38rem; border-radius: 50%; background: var(--crema); }
+
+  /* Tarjeta de turno, montada sobre la portada */
+  .turno-envoltura { position: relative; z-index: 2; margin-top: -5rem; padding-bottom: clamp(3.5rem, 7vw, 5.5rem); }
+  .turno {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 5.5fr);
+    gap: clamp(1.75rem, 5vw, 4.5rem);
+    align-items: center;
+    padding: clamp(1.5rem, 4vw, 3rem);
+    border-radius: 24px;
+    background: var(--hondo);
+    color: var(--crema);
+    box-shadow: 0 34px 60px -34px rgba(11, 63, 57, 0.6);
+    --foco: var(--crema);
+  }
+  .turno .rotulo { color: rgba(244, 239, 232, 0.72); }
+  .turno h2 { font-size: clamp(1.9rem, 3.5vw, 2.75rem); line-height: 1.15; margin-bottom: 0.45em; }
+  .turno p { margin: 0; }
+  .opciones { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.75rem; }
+  .opciones li:last-child { grid-column: 1 / -1; }
+  .opcion {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 0.9rem;
+    height: 100%;
+    padding: 1rem;
+    border-radius: 14px;
+    background: var(--papel);
+    color: var(--tinta);
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+  }
+  .opcion:hover { background: #fff; }
+  .opcion-ico { display: grid; place-items: center; width: 3rem; height: 3rem; border-radius: 50%; background: var(--arena); color: var(--verde); }
+  .opcion-ico .ico { width: 1.3rem; height: 1.3rem; stroke-width: 1.6; }
+  .opcion strong { display: block; color: var(--hondo); font-family: var(--titulos); font-weight: 400; font-size: 1.22rem; line-height: 1.2; }
+  .opcion small { display: block; margin-top: 0.15rem; color: var(--gris); font-size: 0.9rem; line-height: 1.35; }
+  .opcion > .ico { color: var(--verde); }
+
+  /* Bandas */
+  .banda { padding-block: clamp(3.5rem, 7vw, 5.5rem); }
+  .banda-arena { background: var(--arena); }
+  .banda-honda { background: var(--hondo); color: var(--crema); --foco: var(--crema); }
+  .banda-honda .rotulo { color: rgba(244, 239, 232, 0.72); }
+  .banda h2 { font-size: clamp(2rem, 3.7vw, 2.9rem); line-height: 1.15; }
+  .dos {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: clamp(2rem, 5vw, 4.5rem);
+    align-items: center;
+  }
+  .dos .foto { border-radius: 18px; aspect-ratio: 5 / 4.6; }
+
+  /* Danni */
+  .danni h2 { margin: 0 0 0.6em; }
+  .danni .nota { margin-bottom: 1.25rem; }
+  .danni-texto { max-width: 37rem; color: var(--gris); }
+  .danni-texto p:last-child { margin-bottom: 0; }
+  .cifras { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 1.75rem; }
+  .cifras li { padding: 1.1rem 0 1.3rem; border-top: 1px solid var(--linea); }
+  .cifras strong { display: block; color: var(--verde); font-family: var(--titulos); font-weight: 400; font-size: 1.6rem; line-height: 1.2; }
+  .cifras li > span { font-size: 0.95rem; }
+
+  /* Tratamientos */
+  .tratamientos-intro { max-width: 37rem; margin: 0.9rem 0 0; color: var(--gris); font-size: 1.1rem; }
+  .filtros { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 2rem 0 1.75rem; }
+  .filtros button {
+    appearance: none;
+    border: 1px solid var(--linea);
+    border-radius: 999px;
+    padding: 0.6em 1.1em;
+    background: var(--papel);
+    color: var(--tinta);
+    font: inherit;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+  }
+  .filtros button:hover { border-color: var(--verde); }
+  .filtros button[aria-pressed="true"] { border-color: var(--verde); background: var(--verde); color: #fff; }
+  .tarjetas { display: grid; grid-template-columns: repeat(auto-fill, minmax(17.5rem, 1fr)); gap: 1.25rem; }
+  .trat {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 1.4rem;
+    border: 1px solid var(--linea);
+    border-radius: 18px;
+    background: #fffdf9;
+  }
+  .etiqueta {
+    padding: 0.4em 0.85em;
+    border-radius: 999px;
+    background: var(--arena);
+    color: var(--hondo);
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+  .trat h3 { margin: 1rem 0 0.4rem; color: var(--hondo); font-size: 1.45rem; line-height: 1.2; }
+  .trat p { margin: 0 0 1.3rem; color: var(--gris); font-size: 0.98rem; line-height: 1.5; }
+  .trat .btn { margin-top: auto; padding: 0.8em 1.25em; font-size: 0.93rem; }
+
+  /* Equipo */
+  .equipo h2 { margin-bottom: 0.5em; }
+  .rayas { margin: 1.5rem 0 2rem; }
+  .rayas li { position: relative; padding: 0.35rem 0 0.35rem 1.65rem; }
+  .rayas li::before { content: ""; position: absolute; left: 0; top: 1.05em; width: 0.85rem; border-top: 1px solid currentColor; opacity: 0.7; }
+  .equipo .acciones { margin: 0; }
+
+  /* El lugar */
+  .lugar h2 { margin-bottom: 0.5em; }
+  .lugar-intro { max-width: 34rem; color: var(--gris); }
+  .detalles { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 1.75rem; margin-top: 2rem; }
+  .detalles li { padding: 1.1rem 0 1.3rem; border-top: 1px solid var(--linea); }
+  .detalles strong { display: block; color: var(--hondo); font-family: var(--titulos); font-weight: 400; font-size: 1.3rem; line-height: 1.25; }
+  .detalles li > span { display: block; margin-top: 0.25rem; color: var(--gris); font-size: 0.95rem; line-height: 1.45; }
+
+  /* Contacto */
+  .contacto .dos { align-items: start; }
+  .contacto h2 { margin-bottom: 0.9em; }
+  .filas { margin: 0 0 1.75rem; }
+  .filas div { display: grid; grid-template-columns: 7.75rem minmax(0, 1fr); gap: 1rem; align-items: baseline; padding: 0.5rem 0; }
+  .filas dt { color: rgba(244, 239, 232, 0.7); font-size: 0.74rem; font-weight: 600; letter-spacing: 0.17em; text-transform: uppercase; }
+  .filas dd { margin: 0; overflow-wrap: anywhere; }
+  .filas a { text-decoration: none; }
+  .filas a:hover { text-decoration: underline; text-underline-offset: 0.25em; }
+  .formulario {
+    padding: clamp(1.25rem, 3vw, 1.85rem);
+    border: 1px solid rgba(244, 239, 232, 0.2);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.07);
+  }
+  .formulario label { display: block; margin-bottom: 1.2rem; font-size: 0.93rem; }
+  .formulario input, .formulario select, .formulario textarea {
+    display: block;
+    width: 100%;
+    margin-top: 0.5rem;
+    padding: 0.85rem 1rem;
+    border: 1px solid var(--linea);
+    border-radius: 10px;
+    background: var(--papel);
+    color: var(--tinta);
+    font: inherit;
+  }
+  .formulario textarea { min-height: 5.5rem; resize: vertical; }
+  .formulario .btn { width: 100%; padding-block: 1.15em; }
+  .formulario-aviso { margin: 1rem 0 0; color: rgba(244, 239, 232, 0.8); font-size: 0.85rem; }
+
+  /* Pie */
+  .pie { padding-block: 2.25rem 5.5rem; color: var(--gris); font-size: 0.92rem; }
+  .pie-enlaces { display: flex; flex-wrap: wrap; gap: 0.5rem 1.75rem; margin-bottom: 1.5rem; color: var(--tinta); font-weight: 500; }
+  .pie-enlaces a { text-decoration: none; }
+  .pie-enlaces a:hover { color: var(--verde); }
+  .pie p { margin: 0 0 0.35rem; }
+  .pie-borrador { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 1rem; margin-top: 1rem; }
+  .pie button {
+    appearance: none;
+    border: 0;
+    padding: 0;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+    cursor: pointer;
+  }
+
+  /* Botón redondo de WhatsApp */
+  .flota {
+    position: fixed;
+    right: 1.15rem;
+    bottom: 1.15rem;
+    z-index: 20;
+    display: grid;
+    place-items: center;
+    width: 3.6rem;
+    height: 3.6rem;
+    border-radius: 50%;
+    background: var(--wa);
+    color: #fff;
+    box-shadow: 0 12px 28px -8px rgba(30, 21, 16, 0.5);
+    --foco: var(--hondo);
+  }
+  .flota .ico { width: 1.6rem; height: 1.6rem; }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+
+  /* Pantallas chicas */
+  @media (max-width: 56rem) {
+    .portada-grilla, .turno, .dos { grid-template-columns: minmax(0, 1fr); }
+    .retrato { text-align: left; }
+    .ovalo { width: 8.5rem; margin-inline: 10px 0; outline-offset: 7px; }
+    .retrato .nota-foto { margin: 1.1rem 0 0; display: block; width: fit-content; }
+    .portada-grilla { gap: 1.75rem; }
+    .dos .foto { aspect-ratio: 3 / 2; }
+    .lugar .foto { order: -1; }
+  }
+  @media (max-width: 34rem) {
+    .opciones { grid-template-columns: minmax(0, 1fr); }
+    .acciones .btn { width: 100%; }
+    .cifras strong { font-size: 1.35rem; }
+    .detalles { grid-template-columns: minmax(0, 1fr); }
+    .filas div { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; padding: 0.6rem 0; }
+    .turno { border-radius: 20px; }
+  }
+</style>
+</head>
+
+<body>
+
+<header class="cabeza">
+  <div class="ancho cabeza-fila">
+    <a class="marca" href="#inicio">Lucy's Spa<span>Buenos Aires</span></a>
+    <div class="idiomas" role="group" aria-label="Idioma / Language">
+      <button type="button" data-idioma="es" aria-pressed="true" aria-label="Español">ES</button>
+      <button type="button" data-idioma="en" aria-pressed="false" aria-label="English">EN</button>
+    </div>
+    <button type="button" class="menu-btn" id="menu-btn" aria-expanded="false" aria-controls="menu"><span lang="es">Menú</span><span lang="en">Menu</span></button>
+  </div>
+  <nav class="menu" id="menu" aria-label="Secciones" hidden>
+    <div class="ancho">
+      <a href="#inicio"><span lang="es">Inicio</span><span lang="en">Home</span></a>
+      <a href="#danni">Danni</a>
+      <a href="#tratamientos"><span lang="es">Tratamientos</span><span lang="en">Treatments</span></a>
+      <a href="#equipo"><span lang="es">El equipo</span><span lang="en">The team</span></a>
+      <a href="#lugar"><span lang="es">El lugar</span><span lang="en">The place</span></a>
+      <a href="#contacto"><span lang="es">Contacto</span><span lang="en">Contact</span></a>
+      <a class="btn btn-wa" data-wa href="https://wa.me/5491124559977" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.2A8 8 0 1 1 20 11.5z"/></svg><span lang="es">Reservar turno</span><span lang="en">Book a visit</span></a>
+    </div>
+  </nav>
+</header>
+
+<main id="inicio">
+
+  <section class="portada">
+    <figure class="foto portada-fondo">
+      <img src="fotos/portada.jpg" alt="" data-alt-es="Lucy's Spa" data-alt-en="Lucy's Spa" data-muestra="https://images.unsplash.com/photo-1696841212541-449ca29397cc?auto=format&fit=crop&w=1900&q=70" onerror="fotoDeMuestra(this)">
+    </figure>
+    <span class="nota nota-foto"><span lang="es">Foto de muestra: fotos/portada.jpg</span><span lang="en">Sample photo: fotos/portada.jpg</span></span>
+
+    <div class="ancho portada-grilla">
+      <div class="retrato">
+        <figure class="foto ovalo">
+          <img src="fotos/danni.jpg" alt="Danni" data-alt-es="Danni en Lucy's Spa" data-alt-en="Danni at Lucy's Spa" data-muestra="https://images.unsplash.com/photo-1741522509438-a120c0bb5e88?auto=format&fit=crop&w=800&q=70" onerror="fotoDeMuestra(this)">
+        </figure>
+        <span class="nota nota-foto"><span lang="es">Foto de muestra. Acá va el retrato de Danni: fotos/danni.jpg</span><span lang="en">Sample photo. Danni's portrait goes here: fotos/danni.jpg</span></span>
+      </div>
+
+      <div>
+        <p class="rotulo">Lucy's Spa, Buenos Aires</p>
+        <h1><span lang="es"><span class="nombre">Soy Danni.</span> Masajes y estética en el Microcentro</span><span lang="en"><span class="nombre">I'm Danni.</span> Massage and skin care in downtown Buenos Aires</span></h1>
+        <p class="bajada" lang="es">Hace diez años que me dedico al masaje y a la estética. Lucy's Spa es mi lugar, y atiendo en español y en inglés.</p>
+        <p class="bajada" lang="en">I've worked in massage and skin care for ten years. Lucy's Spa is my place, and I see clients in Spanish and English.</p>
+        <div class="acciones">
+          <a class="btn btn-wa" data-wa href="https://wa.me/5491124559977" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.2A8 8 0 1 1 20 11.5z"/></svg><span lang="es">Reservar por WhatsApp</span><span lang="en">Book on WhatsApp</span></a>
+          <a class="btn btn-linea" href="#tratamientos"><span lang="es">Ver tratamientos</span><span lang="en">See treatments</span></a>
+        </div>
+        <ul class="puntos">
+          <li><span lang="es">Todos los días de 9 a 21</span><span lang="en">Every day, 9 am to 9 pm</span></li>
+          <li><span lang="es">Tres Sargentos 421, piso 2</span><span lang="en">Tres Sargentos 421, 2nd floor</span></li>
+          <li><span lang="es">Español e inglés</span><span lang="en">Spanish and English</span></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <div class="ancho turno-envoltura">
+    <section class="turno" aria-labelledby="turno-titulo">
+      <div>
+        <p class="rotulo"><span lang="es">Tu turno</span><span lang="en">Your visit</span></p>
+        <h2 id="turno-titulo"><span lang="es">¿Qué te trae por acá?</span><span lang="en">What brings you in?</span></h2>
+        <p lang="es">Elegí la opción que más se parece a lo tuyo. Se abre WhatsApp con el mensaje ya escrito y seguimos por ahí.</p>
+        <p lang="en">Pick the option closest to yours. WhatsApp opens with the message already written and we take it from there.</p>
+      </div>
+      <ul class="opciones">
+        <li><a class="opcion" data-msg-es="Hola Danni, es mi primera vez en Lucy's Spa. Te cuento qué busco:" data-msg-en="Hi Danni, it's my first time at Lucy's Spa. Here's what I'm looking for:" href="https://wa.me/5491124559977" target="_blank" rel="noopener">
+          <span class="opcion-ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c0-3.9 3.1-6 7-6s7 2.1 7 6"/></svg></span>
+          <span><strong><span lang="es">Es mi primera vez</span><span lang="en">It's my first time</span></strong><small><span lang="es">Contame qué buscás y te recomiendo</span><span lang="en">Tell me what you're after and I'll suggest something</span></small></span>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+        <li><a class="opcion" href="#tratamientos">
+          <span class="opcion-ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 7h10M9 12h10M9 17h10M5 7h.01M5 12h.01M5 17h.01"/></svg></span>
+          <span><strong><span lang="es">Ya sé lo que quiero</span><span lang="en">I know what I want</span></strong><small><span lang="es">Elegilo de la lista de tratamientos</span><span lang="en">Pick it from the treatment list</span></small></span>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+        <li><a class="opcion" data-msg-es="Hola Danni, tengo una molestia y quiero saber qué masaje me conviene." data-msg-en="Hi Danni, something hurts and I'd like to know which massage would suit me." href="https://wa.me/5491124559977" target="_blank" rel="noopener">
+          <span class="opcion-ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2.5-6 4 12 2.5-6H21"/></svg></span>
+          <span><strong><span lang="es">Me duele algo</span><span lang="en">Something hurts</span></strong><small><span lang="es">Cuello, espalda, piernas</span><span lang="en">Neck, back, legs</span></small></span>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+        <li><a class="opcion" data-msg-es="Hola Danni, estoy de visita en Buenos Aires y quiero pedir un turno." data-msg-en="Hi Danni, I'm visiting Buenos Aires and I'd like to book an appointment." href="https://wa.me/5491124559977" target="_blank" rel="noopener">
+          <span class="opcion-ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="8" width="16" height="11" rx="2"/><path d="M9 8V6a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v2"/></svg></span>
+          <span><strong><span lang="es">Estoy de visita</span><span lang="en">I'm visiting</span></strong><small><span lang="es">Atendemos también en inglés</span><span lang="en">We speak English</span></small></span>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+        <li><a class="opcion" data-msg-es="Hola Danni, tengo una consulta." data-msg-en="Hi Danni, I have a question." href="https://wa.me/5491124559977" target="_blank" rel="noopener">
+          <span class="opcion-ico"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.6 9.5a2.5 2.5 0 1 1 3.7 2.2c-.8.5-1.3 1-1.3 1.9M12 17h.01"/></svg></span>
+          <span><strong><span lang="es">Tengo una pregunta</span><span lang="en">I have a question</span></strong><small><span lang="es">Horarios, cómo llegar, lo que necesites</span><span lang="en">Hours, directions, anything you need</span></small></span>
+          <svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a></li>
+      </ul>
+    </section>
+  </div>
+
+  <section class="banda banda-arena danni" id="danni">
+    <div class="ancho dos">
+      <div>
+        <p class="rotulo"><span lang="es">Quién te atiende</span><span lang="en">Who you'll meet</span></p>
+        <h2><span lang="es">Soy porteña y Lucy's Spa es mío</span><span lang="en">I'm from Buenos Aires and Lucy's Spa is mine</span></h2>
+        <span class="nota"><span lang="es">Borrador. Danni: revisá este texto y cambiá lo que no sea así.</span><span lang="en">Draft. Danni: check this text and change anything that isn't right.</span></span>
+        <div class="danni-texto" lang="es">
+          <p>Lo dirijo y también atiendo.</p>
+          <p>Empecé hace diez años. En ese tiempo me formé en distintas técnicas de masaje y en limpieza facial en IDRAET y en IDIP, dos centros de formación en estética, masajes y belleza.</p>
+          <p>Sigo estudiando. Lo que aprendo lo sumo al spa, y lo próximo que quiero incorporar son más tratamientos corporales.</p>
+        </div>
+        <div class="danni-texto" lang="en">
+          <p>I run it and I work in it.</p>
+          <p>I started ten years ago. Since then I've trained in different massage techniques and in facial cleansing at IDRAET and IDIP, two training centres for aesthetics, massage and beauty.</p>
+          <p>I'm still studying. What I learn goes into the spa, and next I want to add more body treatments.</p>
+        </div>
+      </div>
+
+      <ul class="cifras">
+        <li><strong><span lang="es">10 años</span><span lang="en">10 years</span></strong><span lang="es">de masajes y estética</span><span lang="en">in massage and skin care</span></li>
+        <li><strong>IDRAET, IDIP</strong><span lang="es">donde me formé</span><span lang="en">where I trained</span></li>
+        <li><strong><span lang="es">Español e inglés</span><span lang="en">Spanish and English</span></strong><span lang="es">en todo el equipo</span><span lang="en">across the whole team</span></li>
+        <li><strong><span lang="es">9 a 21</span><span lang="en">9 am to 9 pm</span></strong><span lang="es">todos los días</span><span lang="en">every day</span></li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="banda tratamientos" id="tratamientos">
+    <div class="ancho">
+      <p class="rotulo"><span lang="es">Tratamientos</span><span lang="en">Treatments</span></p>
+      <h2><span lang="es">Elegí tu tratamiento</span><span lang="en">Choose your treatment</span></h2>
+      <p class="tratamientos-intro" lang="es">Cada botón abre WhatsApp con el pedido ya escrito. Si no sabés cuál elegir, contame qué te duele o qué buscás.</p>
+      <p class="tratamientos-intro" lang="en">Each button opens WhatsApp with your request already written. Not sure which one? Tell me what hurts or what you're after.</p>
+
+      <div class="filtros" role="group" aria-label="Filtrar tratamientos / Filter treatments">
+        <button type="button" data-filtro="todos" aria-pressed="true"><span lang="es">Todos</span><span lang="en">All</span></button>
+        <button type="button" data-filtro="masajes" aria-pressed="false"><span lang="es">Masajes</span><span lang="en">Massage</span></button>
+        <button type="button" data-filtro="depilacion" aria-pressed="false"><span lang="es">Depilación</span><span lang="en">Hair removal</span></button>
+        <button type="button" data-filtro="terapeuticos" aria-pressed="false"><span lang="es">Terapéuticos</span><span lang="en">Therapeutic</span></button>
+        <button type="button" data-filtro="rostro" aria-pressed="false"><span lang="es">Rostro y cuerpo</span><span lang="en">Face and body</span></button>
+      </div>
+
+      <div class="tarjetas">
+
+        <article class="trat" data-grupo="masajes" data-es="masaje relajante" data-en="a relaxing massage">
+          <span class="etiqueta"><span lang="es">Masaje</span><span lang="en">Massage</span></span>
+          <h3><span lang="es">Relajante</span><span lang="en">Relaxing</span></h3>
+          <p><span lang="es">Ritmo lento y presión suave para bajar el estrés.</span><span lang="en">Slow pace and light pressure to ease stress.</span></p>
+          <a class="btn btn-verde" href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Pedir por WhatsApp</span><span lang="en">Ask on WhatsApp</span></a>
+        </article>
+        <article class="trat" data-grupo="masajes" data-es="masaje descontracturante" data-en="a deep tissue massage">
+          <span class="etiqueta"><span lang="es">Masaje</span><span lang="en">Massage</span></span>
+          <h3><span lang="es">Descontracturante</span><span lang="en">Deep tissue</span></h3>
+          <p><span lang="es">Presión firme sobre las zonas cargadas: cuello, hombros, espalda.</span><span lang="en">Firm pressure on tight areas: neck, shoulders, back.</span></p>
+          <a class="btn btn-verde" href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Pedir por WhatsApp</span><span lang="en">Ask on WhatsApp</span></a>
+        </article>
+        <article class="trat" data-grupo="masajes" data-es="masaje deportivo y rehabilitación" data-en="a sports and recovery massage">
+          <span class="etiqueta"><span lang="es">Masaje</span><span lang="en">Massage</span></span>
+          <h3><span lang="es">Deportivo y rehabilitación</span><span lang="en">Sports and recovery</span></h3>
+          <p><span lang="es">Para antes o después de entrenar, y para acompañar una recuperación muscular.</span><span lang="en">For before or after training, and to support muscle recovery.</span></p>
+          <a class="btn btn-verde" href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Pedir por WhatsApp</span><span lang="en">Ask on WhatsApp</span></a>
+        </article>
+        <article class="trat" data-grupo="masajes" data-es="masaje californiano" data-en="a Californian massage">
+          <span class="etiqueta"><span lang="es">Masaje</span><span lang="en">Massage</span></span>
+          <h3><span lang="es">Californiano</span><span lang="en">Californian</span></h3>
+          <p><span lang="es">Pases largos y envolventes, de cuerpo entero.</span><span lang="en">Long, flowing strokes over the whole body.</span></p>
+          <a class="btn btn-verde" href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Pedir por WhatsApp</span><span lang="en">Ask on WhatsApp</span></a>
+        </article>
+        <article class="trat" data-grupo="masajes" data-es="masaje tailandés" data-en="a Thai massage">
+          <span class="etiqueta"><span lang="es">Masaje</span><span lang="en">Massage</span></span>
+          <h3><span lang="es">Tailandés</span><span lang="en">Thai</span></h3>
+          <p><span lang="es">Estiramientos y presiones que devuelven movilidad.</span><span lang="en">Stretches and pressure that bring back mobility.</span></p>
+          <a class="btn btn-verde" href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Pedir por WhatsApp</span><span lang="en">Ask on WhatsApp</span></a>
+        </article>
+        <article class="trat" data-grupo="masajes" data-es="masaje sueco" data-en="a Swedish massage">
+          <span class="etiqueta"><span lang="es">Masaje</span><span lang="en">Massage</span></span>
+          <h3><span lang="es">Sueco</span><span lang="en">Swedish</span></h3>
+          <p><span lang="es">Amasado y fricción. El clásico para aflojar los músculos y activar la circulación.</span><span lang="en">Kneading and friction. The classic for loosening muscles and getting circulation going.</span></p>
+          <a class="btn btn-verde" href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Pedir por WhatsApp</span><span lang="en">Ask on WhatsApp</span></a>
+        </article>
+        <article class="trat" data-grupo="masajes" data-es="masaje con piedras calientes" data-en="a hot stone massage">
+          <span class="etiqueta"><span lang="es">Masaje</span><span lang="en">Massage</span></span>
+          <h3><span lang="es">Con piedras calientes</span><span lang="en">Hot stone</span></h3>
+          <p><span lang="es">El calor de las piedras afloja la tensión profunda.</span><span lang="en">Heat from the stones releases deep tension.</span></p>
+          <a class="btn btn-verde" href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Pedir por WhatsApp</span><span lang="en">Ask on WhatsApp</span></a>
+        </article>
+
+        <article class="trat" data-grupo="depilacion" data-es="depilación sistema español" data-en="Spanish wax hair removal">
+          <span class="etiqueta"><span lang="es">Depilación</span><span lang="en">Hair removal</span></span>
+          <h3><span lang="es">Sistema español</span><span lang="en">Spanish wax</span></h3>
+          <p><span lang="es">Cera que retira el vello de raíz y cuida la piel.</span><span lang="en">Wax that removes hair from the root and is kind to skin.</span></p>
+          <a class="btn btn-verde" href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Pedir por WhatsApp</span><span lang="en">Ask on WhatsApp</span></a>
+        </article>
+        <article class="trat" data-grupo="depilacion" data-es="depilación sugaring" data-en="sugaring hair removal">
+          <span class="etiqueta"><span lang="es">Depilación</span><span lang="en">Hair removal</span></span>
+          <h3>Sugaring</h3>
+          <p><span lang="es">Pasta natural de azúcar, suave con la piel.</span><span lang="en">Natural sugar paste, gentle on skin.</span></p>
+          <a class="btn btn-verde" href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Pedir por WhatsApp</span><span lang="en">Ask on WhatsApp</span></a>
+        </article>
+
+        <article class="trat" data-grupo="terapeuticos" data-es="quiropraxia" data-en="a chiropractic session">
+          <span class="etiqueta"><span lang="es">Terapéutico</span><span lang="en">Therapeutic</span></span>
+          <h3><span lang="es">Quiropraxia</span><span lang="en">Chiropractic</span></h3>
+          <p><span lang="es">Trabajo sobre columna y articulaciones para aliviar dolores y ganar movilidad.</span><span lang="en">Work on the spine and joints to ease pain and improve movement.</span></p>
+          <a class="btn btn-verde" href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Pedir por WhatsApp</span><span lang="en">Ask on WhatsApp</span></a>
+        </article>
+        <article class="trat" data-grupo="terapeuticos" data-es="drenaje linfático" data-en="lymphatic drainage">
+          <span class="etiqueta"><span lang="es">Terapéutico</span><span lang="en">Therapeutic</span></span>
+          <h3><span lang="es">Drenaje linfático</span><span lang="en">Lymphatic drainage</span></h3>
+          <p><span lang="es">Maniobras muy suaves que ayudan a reducir la retención de líquidos.</span><span lang="en">Very gentle strokes that help reduce fluid retention.</span></p>
+          <a class="btn btn-verde" href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Pedir por WhatsApp</span><span lang="en">Ask on WhatsApp</span></a>
+        </article>
+        <article class="trat" data-grupo="terapeuticos" data-es="reflexología" data-en="reflexology">
+          <span class="etiqueta"><span lang="es">Terapéutico</span><span lang="en">Therapeutic</span></span>
+          <h3><span lang="es">Reflexología</span><span lang="en">Reflexology</span></h3>
+          <p><span lang="es">Presión en puntos de pies y manos.</span><span lang="en">Pressure on points of the feet and hands.</span></p>
+          <a class="btn btn-verde" href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Pedir por WhatsApp</span><span lang="en">Ask on WhatsApp</span></a>
+        </article>
+
+        <article class="trat" data-grupo="rostro" data-es="limpieza facial" data-en="a facial cleansing">
+          <span class="etiqueta"><span lang="es">Rostro</span><span lang="en">Face</span></span>
+          <h3><span lang="es">Limpieza facial</span><span lang="en">Facial cleansing</span></h3>
+          <p><span lang="es">Limpieza profunda que saca impurezas y deja la piel fresca.</span><span lang="en">A deep clean that clears impurities and leaves skin fresh.</span></p>
+          <a class="btn btn-verde" href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Pedir por WhatsApp</span><span lang="en">Ask on WhatsApp</span></a>
+        </article>
+        <article class="trat" data-grupo="rostro" data-es="exfoliación e hidratación corporal" data-en="a body scrub and hydration">
+          <span class="etiqueta"><span lang="es">Cuerpo</span><span lang="en">Body</span></span>
+          <h3><span lang="es">Exfoliación e hidratación corporal</span><span lang="en">Body scrub and hydration</span></h3>
+          <p><span lang="es">Piel suave y nutrida en todo el cuerpo.</span><span lang="en">Soft, nourished skin all over.</span></p>
+          <a class="btn btn-verde" href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Pedir por WhatsApp</span><span lang="en">Ask on WhatsApp</span></a>
+        </article>
+        <article class="trat" data-grupo="rostro" data-es="masaje reductor" data-en="a contouring massage">
+          <span class="etiqueta"><span lang="es">Cuerpo</span><span lang="en">Body</span></span>
+          <h3><span lang="es">Masaje reductor</span><span lang="en">Contouring massage</span></h3>
+          <p><span lang="es">Masaje enérgico sobre zonas puntuales para modelar y activar la circulación.</span><span lang="en">Vigorous massage on specific areas to shape and boost circulation.</span></p>
+          <a class="btn btn-verde" href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Pedir por WhatsApp</span><span lang="en">Ask on WhatsApp</span></a>
+        </article>
+        <article class="trat" data-grupo="rostro" data-es="tratamiento anticelulitis" data-en="an anti-cellulite treatment">
+          <span class="etiqueta"><span lang="es">Cuerpo</span><span lang="en">Body</span></span>
+          <h3><span lang="es">Anticelulitis</span><span lang="en">Anti-cellulite</span></h3>
+          <p><span lang="es">Mejora el aspecto de la piel de naranja y tonifica.</span><span lang="en">Improves the look of dimpled skin and tones.</span></p>
+          <a class="btn btn-verde" href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Pedir por WhatsApp</span><span lang="en">Ask on WhatsApp</span></a>
+        </article>
+        <article class="trat" data-grupo="rostro" data-es="tratamiento para piernas cansadas" data-en="a tired legs treatment">
+          <span class="etiqueta"><span lang="es">Cuerpo</span><span lang="en">Body</span></span>
+          <h3><span lang="es">Piernas cansadas</span><span lang="en">Tired legs</span></h3>
+          <p><span lang="es">Alivia la pesadez y deja las piernas livianas.</span><span lang="en">Eases heaviness and leaves legs feeling light.</span></p>
+          <a class="btn btn-verde" href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Pedir por WhatsApp</span><span lang="en">Ask on WhatsApp</span></a>
+        </article>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="banda banda-honda equipo" id="equipo">
+    <div class="ancho dos">
+      <figure class="foto">
+        <img src="fotos/ambiente.jpg" alt="" data-alt-es="Detalle de Lucy's Spa" data-alt-en="A detail of Lucy's Spa" data-muestra="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?auto=format&fit=crop&w=1300&q=70" onerror="fotoDeMuestra(this)">
+        <span class="nota"><span lang="es">Foto de muestra: fotos/ambiente.jpg</span><span lang="en">Sample photo: fotos/ambiente.jpg</span></span>
+      </figure>
+      <div>
+        <p class="rotulo"><span lang="es">El equipo</span><span lang="en">The team</span></p>
+        <h2><span lang="es">No trabajo sola</span><span lang="en">I don't work alone</span></h2>
+        <p lang="es">En el equipo hay masajistas mujeres y varones, y todos hablamos español e inglés.</p>
+        <p lang="en">The team includes women and men, and we all speak Spanish and English.</p>
+        <ul class="rayas">
+          <li><span lang="es">Masajistas mujeres y varones</span><span lang="en">Women and men on the team</span></li>
+          <li><span lang="es">Atención en español y en inglés</span><span lang="en">Sessions in Spanish or English</span></li>
+          <li><span lang="es">Siempre con turno previo</span><span lang="en">By appointment only</span></li>
+        </ul>
+        <div class="acciones">
+          <a class="btn btn-wa" data-wa href="https://wa.me/5491124559977" target="_blank" rel="noopener"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.2A8 8 0 1 1 20 11.5z"/></svg><span lang="es">Reservar por WhatsApp</span><span lang="en">Book on WhatsApp</span></a>
+          <a class="btn btn-linea" href="#tratamientos"><span lang="es">Ver tratamientos</span><span lang="en">See treatments</span></a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="banda banda-arena lugar" id="lugar">
+    <div class="ancho dos">
+      <div>
+        <p class="rotulo"><span lang="es">El lugar</span><span lang="en">The place</span></p>
+        <h2><span lang="es">Un segundo piso en Tres Sargentos</span><span lang="en">A second floor on Tres Sargentos</span></h2>
+        <p class="lugar-intro" lang="es">Lucy's Spa queda en Tres Sargentos 421, piso 2, departamento 4, en el Microcentro porteño.</p>
+        <p class="lugar-intro" lang="en">Lucy's Spa is at Tres Sargentos 421, 2nd floor, apartment 4, in downtown Buenos Aires.</p>
+        <ul class="detalles">
+          <li><strong><span lang="es">Horario</span><span lang="en">Hours</span></strong><span lang="es">Todos los días, de 9 a 21.</span><span lang="en">Every day, 9 am to 9 pm.</span></li>
+          <li><strong><span lang="es">Turnos</span><span lang="en">Appointments</span></strong><span lang="es">Siempre con turno previo.</span><span lang="en">By appointment only.</span></li>
+          <li><strong><span lang="es">En verano</span><span lang="en">In summer</span></strong><span lang="es">El horario puede cambiar. Consultá antes de venir.</span><span lang="en">Hours can change. Check before you come.</span></li>
+          <li><strong><span lang="es">Cómo llegar</span><span lang="en">Getting here</span></strong><span><a href="https://www.google.com/maps/search/?api=1&query=Tres+Sargentos+421%2C+Buenos+Aires" target="_blank" rel="noopener"><span lang="es">Abrir en Google Maps</span><span lang="en">Open in Google Maps</span></a></span></li>
+        </ul>
+      </div>
+      <figure class="foto">
+        <img src="fotos/sala.jpg" alt="" data-alt-es="Una sala de Lucy's Spa" data-alt-en="A treatment room at Lucy's Spa" data-muestra="https://images.unsplash.com/photo-1611920629515-3f76f8c36b37?auto=format&fit=crop&w=1300&q=70" onerror="fotoDeMuestra(this)">
+        <span class="nota"><span lang="es">Foto de muestra: fotos/sala.jpg</span><span lang="en">Sample photo: fotos/sala.jpg</span></span>
+      </figure>
+    </div>
+  </section>
+
+  <section class="banda banda-honda contacto" id="contacto">
+    <div class="ancho dos">
+      <div>
+        <p class="rotulo"><span lang="es">Contacto</span><span lang="en">Contact</span></p>
+        <h2><span lang="es">Escribime y coordinamos</span><span lang="en">Message me and we'll set a time</span></h2>
+        <dl class="filas">
+          <div><dt><span lang="es">Dirección</span><span lang="en">Address</span></dt><dd><span lang="es">Tres Sargentos 421, piso 2, departamento 4</span><span lang="en">Tres Sargentos 421, 2nd floor, apartment 4</span></dd></div>
+          <div><dt><span lang="es">Horario</span><span lang="en">Hours</span></dt><dd><span lang="es">Todos los días, de 9 a 21</span><span lang="en">Every day, 9 am to 9 pm</span></dd></div>
+          <div><dt>WhatsApp</dt><dd><a data-wa href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">11 2455-9977</span><span lang="en">+54 9 11 2455-9977</span></a></dd></div>
+          <div><dt><span lang="es">Teléfono fijo</span><span lang="en">Landline</span></dt><dd><a href="tel:+541152227228"><span lang="es">011 5222-7228</span><span lang="en">+54 11 5222-7228</span></a></dd></div>
+          <div><dt>Mail</dt><dd><a href="mailto:lucyspa.baires@gmail.com">lucyspa.baires@gmail.com</a></dd></div>
+        </dl>
+        <a class="btn btn-linea" href="https://www.google.com/maps/search/?api=1&query=Tres+Sargentos+421%2C+Buenos+Aires" target="_blank" rel="noopener"><span lang="es">Abrir en Google Maps</span><span lang="en">Open in Google Maps</span></a>
+      </div>
+
+      <form class="formulario" id="formulario">
+        <label><span lang="es">Tu nombre</span><span lang="en">Your name</span>
+          <input type="text" id="f-nombre" autocomplete="given-name" data-ph-es="Ej.: Sofía" data-ph-en="E.g. Sophie"></label>
+        <label><span lang="es">¿Qué te interesa?</span><span lang="en">What are you interested in?</span>
+          <select id="f-interes"></select></label>
+        <label><span lang="es">Mensaje (opcional)</span><span lang="en">Message (optional)</span>
+          <textarea id="f-mensaje" data-ph-es="Ej.: ¿Tenés turno el jueves a la tarde?" data-ph-en="E.g. Do you have a slot on Thursday afternoon?"></textarea></label>
+        <button type="submit" class="btn btn-wa"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.2A8 8 0 1 1 20 11.5z"/></svg><span lang="es">Enviar por WhatsApp</span><span lang="en">Send on WhatsApp</span></button>
+        <p class="formulario-aviso" lang="es">Se abre WhatsApp con tu mensaje listo. Nada se envía hasta que vos lo mandes.</p>
+        <p class="formulario-aviso" lang="en">WhatsApp opens with your message ready. Nothing is sent until you send it.</p>
+      </form>
+    </div>
+  </section>
+
+</main>
+
+<footer class="pie">
+  <div class="ancho">
+    <nav class="pie-enlaces" aria-label="Pie">
+      <a href="#danni">Danni</a>
+      <a href="#tratamientos"><span lang="es">Tratamientos</span><span lang="en">Treatments</span></a>
+      <a href="#equipo"><span lang="es">El equipo</span><span lang="en">The team</span></a>
+      <a href="#lugar"><span lang="es">El lugar</span><span lang="en">The place</span></a>
+      <a href="#contacto"><span lang="es">Contacto</span><span lang="en">Contact</span></a>
+    </nav>
+    <p>Lucy's Spa, Tres Sargentos 421, 2º 4, Microcentro, Buenos Aires.</p>
+    <p id="hora" hidden></p>
+    <div class="pie-borrador">
+      <span class="nota"><span lang="es">Las fotos son de muestra (Unsplash, licencia libre) hasta tener las de Danni.</span><span lang="en">Photos are samples (Unsplash, free licence) until Danni's own are ready.</span></span>
+      <a class="nota" href="oscuro.html"><span lang="es">Ver la versión oscura</span><span lang="en">See the dark version</span></a>
+      <a class="nota" href="index.html"><span lang="es">Volver a las dos versiones</span><span lang="en">Back to both versions</span></a>
+      <button type="button" id="notas-btn">Ocultar notas de borrador</button>
+    </div>
+  </div>
+</footer>
+
+<a class="flota" id="flota" data-wa href="https://wa.me/5491124559977" target="_blank" rel="noopener" aria-label="WhatsApp"><svg class="ico" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 11.5a8 8 0 0 1-11.6 7.1L4 20l1.4-4.2A8 8 0 1 1 20 11.5z"/></svg></a>
+
+<script>
+(function () {
+  var raiz = document.documentElement;
+  var WHATSAPP = '5491124559977';
+
+  var textos = {
+    es: {
+      titulo: "Danni | Lucy's Spa, masajes y estética en Microcentro",
+      general: 'Hola Danni, quiero pedir un turno.',
+      tratamiento: 'Hola Danni, quiero pedir un turno para ',
+      muestra: 'Foto de muestra',
+      ocultar: 'Ocultar notas de borrador',
+      mostrar: 'Mostrar notas de borrador',
+      hola: 'Hola Danni. ',
+      soy: 'Soy ',
+      interesa: 'Me interesa: ',
+      otra: 'Otra consulta',
+      otraTexto: 'otra consulta'
+    },
+    en: {
+      titulo: "Danni | Lucy's Spa, massage and skin care in downtown Buenos Aires",
+      general: "Hi Danni, I'd like to book an appointment.",
+      tratamiento: "Hi Danni, I'd like to book ",
+      muestra: 'Sample photo',
+      ocultar: 'Hide draft notes',
+      mostrar: 'Show draft notes',
+      hola: 'Hi Danni. ',
+      soy: "I'm ",
+      interesa: "I'm interested in: ",
+      otra: 'Something else',
+      otraTexto: 'something else'
+    }
+  };
+
+  function leer(clave) {
+    try { return localStorage.getItem(clave); } catch (e) { return null; }
+  }
+  function guardar(clave, valor) {
+    try { localStorage.setItem(clave, valor); } catch (e) {}
+  }
+  function enlaceWhatsApp(mensaje) {
+    return 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(mensaje);
+  }
+  function textoEn(elemento, idioma) {
+    var parte = elemento.querySelector('[lang="' + idioma + '"]') || elemento;
+    return parte.textContent.trim();
+  }
+
+  /* Menú desplegable */
+  var menuBtn = document.getElementById('menu-btn');
+  var menu = document.getElementById('menu');
+  function cerrarMenu() {
+    menu.hidden = true;
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }
+  menuBtn.addEventListener('click', function () {
+    menu.hidden = !menu.hidden;
+    menuBtn.setAttribute('aria-expanded', String(!menu.hidden));
+  });
+  menu.addEventListener('click', function (e) {
+    if (e.target.closest('a')) cerrarMenu();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !menu.hidden) { cerrarMenu(); menuBtn.focus(); }
+  });
+
+  /* Filtros de tratamientos */
+  var tarjetas = document.querySelectorAll('.trat');
+  var filtros = document.querySelectorAll('[data-filtro]');
+  filtros.forEach(function (boton) {
+    boton.addEventListener('click', function () {
+      var grupo = boton.dataset.filtro;
+      filtros.forEach(function (b) { b.setAttribute('aria-pressed', String(b === boton)); });
+      tarjetas.forEach(function (t) { t.hidden = grupo !== 'todos' && t.dataset.grupo !== grupo; });
+    });
+  });
+
+  /* Formulario: arma el mensaje y abre WhatsApp */
+  var formulario = document.getElementById('formulario');
+  var campoNombre = document.getElementById('f-nombre');
+  var campoInteres = document.getElementById('f-interes');
+  var campoMensaje = document.getElementById('f-mensaje');
+
+  function armarInteres(idioma) {
+    var t = textos[idioma];
+    var elegido = campoInteres.selectedIndex;
+    campoInteres.textContent = '';
+    filtros.forEach(function (boton) {
+      var grupo = boton.dataset.filtro;
+      if (grupo === 'todos') return;
+      var bloque = document.createElement('optgroup');
+      bloque.label = textoEn(boton, idioma);
+      tarjetas.forEach(function (tarjeta) {
+        if (tarjeta.dataset.grupo !== grupo) return;
+        var opcion = document.createElement('option');
+        opcion.textContent = textoEn(tarjeta.querySelector('h3'), idioma);
+        opcion.value = tarjeta.dataset[idioma];
+        bloque.appendChild(opcion);
+      });
+      campoInteres.appendChild(bloque);
+    });
+    var otra = document.createElement('option');
+    otra.textContent = t.otra;
+    otra.value = t.otraTexto;
+    campoInteres.appendChild(otra);
+    if (elegido > -1) campoInteres.selectedIndex = elegido;
+  }
+
+  formulario.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var t = textos[raiz.dataset.lang];
+    var nombre = campoNombre.value.trim();
+    var mensaje = campoMensaje.value.trim();
+    var texto = t.hola + (nombre ? t.soy + nombre + '. ' : '') + t.interesa + campoInteres.value + '.' + (mensaje ? ' ' + mensaje : '');
+    window.open(enlaceWhatsApp(texto), '_blank', 'noopener');
+  });
+
+  /* La hora de Buenos Aires, para quien escribe desde otro huso */
+  var hora = document.getElementById('hora');
+  function pintarHora() {
+    try {
+      var en = raiz.dataset.lang === 'en';
+      var partes = new Intl.DateTimeFormat(en ? 'en-US' : 'es-AR', {
+        timeZone: 'America/Argentina/Buenos_Aires', hour: 'numeric', minute: '2-digit', hour12: en
+      }).format(new Date());
+      if (en) hora.textContent = "It's " + partes + ' in Buenos Aires.';
+      else hora.textContent = (/^(1|01):/.test(partes) ? 'En Buenos Aires es la ' : 'En Buenos Aires son las ') + partes + '.';
+      hora.hidden = false;
+    } catch (e) { hora.hidden = true; }
+  }
+  setInterval(pintarHora, 30000);
+
+  var botonNotas = document.getElementById('notas-btn');
+  function pintarNotas() {
+    var t = textos[raiz.dataset.lang];
+    botonNotas.textContent = raiz.dataset.notas === 'off' ? t.mostrar : t.ocultar;
+  }
+
+  function ponerIdioma(idioma) {
+    var t = textos[idioma];
+    raiz.lang = idioma;
+    raiz.dataset.lang = idioma;
+    document.title = t.titulo;
+
+    document.querySelectorAll('[data-idioma]').forEach(function (b) {
+      b.setAttribute('aria-pressed', String(b.dataset.idioma === idioma));
+    });
+    document.querySelectorAll('a[data-wa]').forEach(function (a) {
+      a.href = enlaceWhatsApp(t.general);
+    });
+    document.querySelectorAll('a[data-msg-es]').forEach(function (a) {
+      a.href = enlaceWhatsApp(a.dataset[idioma === 'en' ? 'msgEn' : 'msgEs']);
+    });
+    tarjetas.forEach(function (tarjeta) {
+      tarjeta.querySelector('a.btn').href = enlaceWhatsApp(t.tratamiento + tarjeta.dataset[idioma] + '.');
+    });
+    document.querySelectorAll('img[data-alt-es]').forEach(function (img) {
+      img.alt = img.dataset.esMuestra ? t.muestra : img.dataset[idioma === 'en' ? 'altEn' : 'altEs'];
+    });
+    document.querySelectorAll('[data-ph-es]').forEach(function (campo) {
+      campo.placeholder = campo.dataset[idioma === 'en' ? 'phEn' : 'phEs'];
+    });
+    armarInteres(idioma);
+    pintarNotas();
+    pintarHora();
+  }
+
+  document.querySelectorAll('[data-idioma]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      ponerIdioma(b.dataset.idioma);
+      guardar('lucys-idioma', b.dataset.idioma);
+    });
+  });
+
+  botonNotas.addEventListener('click', function () {
+    raiz.dataset.notas = raiz.dataset.notas === 'off' ? 'on' : 'off';
+    guardar('lucys-notas', raiz.dataset.notas);
+    pintarNotas();
+  });
+
+  if (raiz.dataset.notas !== 'off' && leer('lucys-notas') === 'off') raiz.dataset.notas = 'off';
+  ponerIdioma(leer('lucys-idioma') === 'en' ? 'en' : 'es');
+})();
+</script>
+
+</body>
+</html>

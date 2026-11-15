@@ -1,4 +1,4 @@
-Fotos para la pagina (index.html)
+Fotos para las dos versiones de la pagina (oscuro.html y claro.html)
 
 Hoy la pagina muestra fotos de muestra (Unsplash, licencia libre).
 Guarda las fotos reales en esta carpeta con estos nombres y reemplazan solas a las de muestra:

@@ -1,681 +1,211 @@
 <!doctype html>
-<html lang="es" data-lang="es" data-notas="on">
+<html lang="es" data-lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Danni | Lucy's Spa, masajes y estética en Microcentro</title>
-<!-- Borrador: que los buscadores no lo indexen todavía. Borrar esta línea cuando la página sea la definitiva. -->
+<title>Lucy's Spa | Dos versiones de la página de Danni</title>
+<!-- Borrador: que los buscadores no lo indexen. Esta portada es solo para elegir entre las dos versiones. -->
 <meta name="robots" content="noindex">
-<meta name="description" content="Danni, dueña de Lucy's Spa. Diez años de masajes y estética en el Microcentro de Buenos Aires. Atención en español y en inglés.">
+<meta name="description" content="Dos versiones de la página de Danni y Lucy's Spa, con el mismo contenido y distinto diseño.">
 
 <!--
-  CÓMO EDITAR ESTA PÁGINA
-
-  Textos: cada texto está dos veces, una con lang="es" y otra con lang="en".
-  Cambiá las dos.
-
-  Fotos: hoy se ven fotos de muestra (Unsplash, licencia libre). Guardá las fotos
-  reales en la carpeta "fotos" con estos nombres y reemplazan solas a las de muestra:
-    fotos/portada.jpg    foto grande de la portada (horizontal, oscura si se puede)
-    fotos/danni.jpg      retrato de Danni (vertical)
-    fotos/ambiente.jpg   detalle o ambiente del spa (horizontal)
-    fotos/sala.jpg       una sala del spa (horizontal)
-
-  Notas de borrador: las etiquetas punteadas son avisos para Danni.
-  Para sacarlas del todo, cambiá data-notas="on" por data-notas="off" en la etiqueta <html>.
+  PORTADA DE MUESTRA
+  Muestra las dos versiones de la página de Danni y enlaza a cada una:
+    oscuro.html   versión oscura
+    claro.html    versión clara
+  Las vistas previas son las páginas reales en miniatura, así que siempre están al día.
+  Cuando se elija una versión, esa pasa a llamarse index.html y esta portada se borra.
 -->
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-
-<script>
-  /* Si no existe la foto real en la carpeta "fotos", se usa la de muestra */
-  function fotoDeMuestra(img) {
-    var marco = img.closest('.foto');
-    var muestra = img.dataset.muestra;
-    if (muestra && !img.dataset.esMuestra) {
-      img.dataset.esMuestra = '1';
-      img.alt = document.documentElement.lang === 'en' ? 'Sample photo' : 'Foto de muestra';
-      marco.classList.add('muestra');
-      img.src = muestra;
-    } else {
-      marco.classList.add('vacia');
-      img.remove();
-    }
-  }
-</script>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400&family=Figtree:wght@400;500;600&family=Marcellus&display=swap" rel="stylesheet">
 
 <style>
   :root {
-    --noche: #0D1512;
-    --bosque: #15221C;
-    --piedra: #E6E3DC;
-    --salvia: #A3AE9F;
-    --niebla: #DDE2DA;
-    --tinta: #14201B;
-    --linea: rgba(230, 227, 220, 0.2);
-    --linea-oscura: rgba(20, 32, 27, 0.2);
-
-    --serif: "Cormorant Garamond", "Iowan Old Style", Georgia, serif;
-    --sans: "Jost", "Avenir Next", "Helvetica Neue", Arial, sans-serif;
-    --borde: clamp(1.5rem, 5vw, 4.5rem);
-    --foco: var(--piedra);
+    --fondo: #ECEEEA;
+    --tarjeta: #F8F9F6;
+    --tinta: #16201C;
+    --gris: #56615C;
+    --linea: #CBD1CA;
+    --borde: clamp(1.25rem, 4vw, 3rem);
   }
 
   *, *::before, *::after { box-sizing: border-box; }
 
-  html { background: var(--noche); scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  html { background: var(--fondo); -webkit-text-size-adjust: 100%; }
 
   body {
     margin: 0;
-    background: var(--noche);
-    color: var(--piedra);
-    font-family: var(--sans);
-    font-weight: 300;
-    font-size: 1.125rem;
-    line-height: 1.65;
+    background: var(--fondo);
+    color: var(--tinta);
+    font-family: "Figtree", "Segoe UI", system-ui, -apple-system, sans-serif;
+    font-size: 1.0625rem;
+    line-height: 1.6;
   }
 
   /* Idiomas: se muestra uno solo */
   html[data-lang="es"] body [lang="en"],
   html[data-lang="en"] body [lang="es"] { display: none !important; }
 
-  /* Notas de borrador */
-  html[data-notas="off"] body .nota { display: none !important; }
-
-  img { display: block; max-width: 100%; }
   a { color: inherit; }
-  p { margin: 0 0 1.1em; }
-  h1, h2, h3 { margin: 0; font-family: var(--serif); font-weight: 300; text-wrap: balance; }
+  p { margin: 0; }
+  h1, h2 { margin: 0; font-weight: 500; text-wrap: balance; }
 
-  :focus-visible { outline: 1px solid var(--foco); outline-offset: 4px; }
+  :focus-visible { outline: 2px solid var(--tinta); outline-offset: 3px; }
 
-  .ancho { max-width: 84rem; margin-inline: auto; padding-inline: var(--borde); }
+  .ancho { max-width: 82rem; margin-inline: auto; padding-inline: var(--borde); }
 
-  section[id] { scroll-margin-top: 1rem; }
+  .barra { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.5rem; }
+  .marca { font-weight: 600; }
+  .marca span { color: var(--gris); font-weight: 400; }
 
-  /* Letra chica espaciada, la de la navegación y los botones */
-  .fina {
-    font-family: var(--sans);
-    font-weight: 400;
-    font-size: 0.78rem;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-  }
-
-  .btn {
-    display: inline-block;
-    padding: 1.15em 2.1em;
-    border: 1px solid var(--piedra);
-    background: var(--piedra);
-    color: var(--noche);
-    text-decoration: none;
-    line-height: 1.2;
-    transition: background-color 0.25s ease, color 0.25s ease;
-  }
-  .btn:hover { background: transparent; color: var(--piedra); }
-
-  .enlace {
-    padding-bottom: 0.3em;
-    border-bottom: 1px solid currentColor;
-    text-decoration: none;
-    transition: opacity 0.2s ease;
-  }
-  .enlace:hover { opacity: 0.65; }
-
-  .nota {
-    display: inline-block;
-    padding: 0.35em 0.7em;
-    border: 1px dashed var(--salvia);
-    color: var(--salvia);
-    font-family: var(--sans);
-    font-size: 0.8rem;
-    font-weight: 400;
-    line-height: 1.35;
-    letter-spacing: 0;
-    text-transform: none;
-  }
-
-  /* Fotos */
-  .foto { position: relative; margin: 0; overflow: hidden; background: var(--bosque); }
-  .foto img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .foto.vacia { display: none; }
-  .foto .nota, .nota-foto {
-    position: absolute;
-    right: 0.75rem;
-    bottom: 0.75rem;
-    z-index: 2;
-    border-color: rgba(230, 227, 220, 0.55);
-    background: rgba(13, 21, 18, 0.7);
-    color: var(--piedra);
-  }
-  .foto:not(.muestra) .nota, .foto:not(.muestra) + .nota-foto { display: none; }
-
-  /* Portada */
-  .portada {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    min-height: max(100svh, 38rem);
-    isolation: isolate;
-  }
-  .portada .foto { position: absolute; inset: 0; z-index: -2; }
-  .portada::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: -1;
-    background:
-      linear-gradient(to bottom, rgba(13, 21, 18, 0.7) 0%, rgba(13, 21, 18, 0.15) 30%, rgba(13, 21, 18, 0.3) 55%, rgba(13, 21, 18, 0.94) 100%),
-      linear-gradient(to right, rgba(13, 21, 18, 0.8) 0%, rgba(13, 21, 18, 0) 72%);
-  }
-  .barra { display: flex; align-items: center; gap: 2.5rem; width: 100%; padding-block: 1.75rem; }
-  .marca { margin-right: auto; font-family: var(--serif); font-weight: 400; font-size: 1.6rem; line-height: 1; text-decoration: none; }
-  .marca .marca-ciudad { display: block; margin-top: 0.5rem; font-size: 0.62rem; letter-spacing: 0.34em; color: var(--salvia); }
-  .nav { display: flex; gap: 2.5rem; }
-  .nav a { text-decoration: none; transition: opacity 0.2s ease; }
-  .nav a:hover { opacity: 0.65; }
-
-  .idiomas { display: flex; gap: 0.9rem; }
+  .idiomas { display: flex; gap: 0.15rem; padding: 0.2rem; border: 1px solid var(--linea); border-radius: 999px; }
   .idiomas button {
     appearance: none;
     border: 0;
-    border-bottom: 1px solid transparent;
+    border-radius: 999px;
     margin: 0;
-    padding: 0 0 0.3em;
+    padding: 0.42em 0.85em;
     background: none;
-    color: var(--piedra);
-    opacity: 0.55;
+    color: var(--gris);
+    font: inherit;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
     cursor: pointer;
   }
-  .idiomas button[aria-pressed="true"] { opacity: 1; border-bottom-color: var(--piedra); }
+  .idiomas button[aria-pressed="true"] { background: var(--tinta); color: #fff; }
 
-  .portada-cuerpo {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    width: 100%;
-    padding-bottom: clamp(2.5rem, 6vw, 5rem);
-  }
-  .portada-lugar { margin-bottom: 1.5rem; color: var(--salvia); }
-  .coord { display: inline-block; margin-left: 1.6em; opacity: 0.7; white-space: nowrap; }
-  .portada h1 { font-size: clamp(4rem, 12vw, 10.5rem); line-height: 0.92; letter-spacing: -0.01em; margin-bottom: 0.3em; }
-  .bajada { max-width: 31rem; font-size: 1.2rem; line-height: 1.6; }
-  .acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem 2.25rem; margin: 2rem 0 1.75rem; }
-  .horario-corto { margin: 0; color: var(--salvia); font-size: 1rem; }
+  .cabeza { padding-block: clamp(2rem, 6vw, 4.5rem) clamp(2rem, 5vw, 3.5rem); }
+  .cabeza h1 { max-width: 18em; font-size: clamp(2rem, 4.6vw, 3.4rem); line-height: 1.1; letter-spacing: -0.02em; }
+  .cabeza p { max-width: 36rem; margin-top: 1.1rem; color: var(--gris); font-size: 1.15rem; }
 
-  /* Secciones */
-  .seccion { padding-block: clamp(4.5rem, 11vw, 9.5rem); }
-  .seccion h2 { font-size: clamp(2.5rem, 5vw, 4.4rem); line-height: 1.04; }
-
-  /* Historia */
-  .historia-grilla {
-    display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-    gap: clamp(2.5rem, 7vw, 7rem);
-    align-items: center;
-  }
-  .historia .foto { aspect-ratio: 4 / 5; }
-  .historia h2 { margin: 1.25rem 0 0.7em; }
-  .historia-resto { max-width: 33rem; color: rgba(230, 227, 220, 0.86); }
-
-  .datos { max-width: 33rem; margin: 2.75rem 0 0; }
-  .datos div {
-    display: grid;
-    grid-template-columns: 9rem 1fr;
-    align-items: baseline;
-    gap: 1.5rem;
-    padding: 1rem 0;
-    border-top: 1px solid var(--linea);
-  }
-  .datos div:last-child { border-bottom: 1px solid var(--linea); }
-  .datos dt { color: var(--salvia); }
-  .datos dd { margin: 0; font-family: var(--serif); font-weight: 400; font-size: 1.5rem; line-height: 1.2; }
-
-  /* Tratamientos */
-  .tratamientos { --foco: var(--tinta); background: var(--niebla); color: var(--tinta); }
-  .tratamientos-cabeza { max-width: 36rem; margin-bottom: clamp(3rem, 7vw, 5.5rem); }
-  .tratamientos h2 { margin-bottom: 0.5em; }
-  .tratamientos-intro { margin: 0; }
-  .carta {
+  .versiones {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 0 clamp(2.5rem, 7vw, 7rem);
+    gap: clamp(1.25rem, 3vw, 2.25rem);
+    padding-bottom: clamp(3rem, 7vw, 5rem);
   }
-  .grupo { margin-bottom: 3.5rem; }
-  .grupo h3 { font-style: italic; font-size: 2rem; line-height: 1.1; padding-bottom: 0.9rem; }
-  .grupo ul { list-style: none; margin: 0; padding: 0; }
-  .trat {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    align-items: baseline;
-    gap: 0.15rem 1.5rem;
-    padding: 1.15rem 0;
-    border-top: 1px solid var(--linea-oscura);
-    text-decoration: none;
-  }
-  .grupo li:last-child .trat { border-bottom: 1px solid var(--linea-oscura); }
-  .trat-nom { font-family: var(--serif); font-weight: 500; font-size: 1.55rem; line-height: 1.2; }
-  .trat-desc { grid-column: 1; font-size: 1rem; line-height: 1.5; color: rgba(20, 32, 27, 0.78); }
-  .trat-pedir {
-    grid-column: 2;
-    grid-row: 1;
-    padding-bottom: 0.3em;
-    border-bottom: 1px solid transparent;
-    white-space: nowrap;
-    opacity: 0.6;
-    transition: opacity 0.2s ease, border-color 0.2s ease;
-  }
-  .trat:hover .trat-pedir, .trat:focus-visible .trat-pedir { opacity: 1; border-bottom-color: currentColor; }
 
-  /* Franja con foto */
-  .franja {
+  .version {
     position: relative;
-    display: grid;
-    place-items: center;
-    min-height: min(80vh, 44rem);
-    padding: 5rem var(--borde);
-    text-align: center;
-    isolation: isolate;
-  }
-  .franja .foto { position: absolute; inset: 0; z-index: -2; }
-  .franja::before { content: ""; position: absolute; inset: 0; z-index: -1; background: rgba(13, 21, 18, 0.62); }
-  .equipo {
-    max-width: 21em;
-    margin: 0;
-    font-family: var(--serif);
-    font-style: italic;
-    font-size: clamp(1.8rem, 3.6vw, 3.1rem);
-    line-height: 1.22;
-    text-wrap: balance;
-  }
-
-  /* Visita */
-  .visita-grilla {
-    display: grid;
-    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
-    gap: clamp(2.5rem, 7vw, 7rem);
-    align-items: center;
-  }
-  .visita h2 { margin-bottom: 0.9em; }
-  .direccion { font-family: var(--serif); font-style: normal; font-weight: 400; font-size: clamp(1.7rem, 2.8vw, 2.3rem); line-height: 1.15; }
-  .direccion-resto { color: var(--salvia); margin: 0.4rem 0 1.5rem; }
-  .visita h3 { font-family: var(--sans); color: var(--salvia); margin: 2.75rem 0 0.9rem; }
-  .visita-lista { list-style: none; margin: 0; padding: 0; }
-  .visita-lista li { padding: 0.2rem 0; }
-  .visita-lista .etiqueta { display: inline-block; min-width: 8.5rem; color: var(--salvia); }
-  .visita-lista a { text-decoration: none; border-bottom: 1px solid var(--linea); }
-  .visita-lista a:hover { border-bottom-color: var(--piedra); }
-  .visita .foto { aspect-ratio: 4 / 5; }
-
-  /* Cierre */
-  .cierre { background: var(--bosque); text-align: center; }
-  .cierre .ancho { padding-block: clamp(4.5rem, 11vw, 9rem) 2rem; }
-  .cierre h2 { font-style: italic; font-size: clamp(3rem, 8vw, 7rem); line-height: 1; margin-bottom: 0.3em; }
-  .cierre-ciudad { margin: 0 0 2.5rem; color: var(--salvia); font-size: 1.2rem; }
-  .pie {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 0.75rem 2rem;
-    margin-top: clamp(4rem, 10vw, 8rem);
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--linea);
-    color: var(--salvia);
-    font-size: 0.92rem;
-    text-align: left;
+    flex-direction: column;
+    border: 1px solid var(--linea);
+    border-radius: 14px;
+    background: var(--tarjeta);
+    overflow: hidden;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
   }
-  .pie p { margin: 0; }
-  .pie .nota { margin-top: 0.5rem; }
-  .pie button {
-    appearance: none;
+  .version:hover { border-color: var(--tinta); box-shadow: 0 22px 40px -28px rgba(22, 32, 28, 0.55); }
+
+  /* Vista previa: la página real, achicada */
+  .vista { position: relative; aspect-ratio: 16 / 10; overflow: hidden; border-bottom: 1px solid var(--linea); }
+  .vista-oscura { background: #0D1512; }
+  .vista-clara { background: #1E1510; }
+  .vista iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1280px;
+    height: 800px;
     border: 0;
-    padding: 0;
-    background: none;
-    color: inherit;
-    font: inherit;
-    text-decoration: underline;
-    text-underline-offset: 0.25em;
-    cursor: pointer;
+    transform-origin: 0 0;
+    transform: scale(var(--escala, 0.4));
+    pointer-events: none;
   }
 
-  /* Botón fijo de WhatsApp */
-  .flota {
-    position: fixed;
-    right: 1.25rem;
-    bottom: 1.25rem;
-    z-index: 20;
-    padding: 1em 1.6em;
-    border: 1px solid var(--noche);
-    background: var(--piedra);
-    color: var(--noche);
-    text-decoration: none;
+  .version-texto { display: flex; flex-direction: column; align-items: flex-start; flex: 1; padding: clamp(1.25rem, 2.5vw, 1.9rem); }
+  .version h2 { font-size: 2rem; line-height: 1.15; font-weight: 400; }
+  .version-oscura h2 { font-family: "Cormorant Garamond", Georgia, serif; font-size: 2.35rem; }
+  .version-clara h2 { font-family: "Marcellus", Georgia, serif; }
+  .version h2 a { text-decoration: none; }
+  /* Toda la tarjeta es el enlace */
+  .version h2 a::after { content: ""; position: absolute; inset: 0; z-index: 1; }
+  .version h2 a:focus-visible { outline: none; }
+  .version:has(h2 a:focus-visible) { outline: 2px solid var(--tinta); outline-offset: 3px; }
+  .version p { margin: 0.6rem 0 1.4rem; color: var(--gris); }
+  .abrir {
+    margin-top: auto;
+    padding: 0.7em 1.25em;
+    border-radius: 8px;
+    background: var(--tinta);
+    color: #fff;
+    font-weight: 600;
+    font-size: 0.95rem;
     line-height: 1.2;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
-    transition: opacity 0.3s ease, visibility 0.3s;
-  }
-  .flota[data-oculta] { opacity: 0; visibility: hidden; }
-
-  /* Entrada de la portada: aparece una vez, despacio */
-  @media (prefers-reduced-motion: no-preference) {
-    .portada .foto { animation: aclarar 1.8s ease both; }
-    .portada-cuerpo { animation: aparecer 1.2s ease 0.35s both; }
-    @keyframes aclarar { from { opacity: 0; } to { opacity: 1; } }
-    @keyframes aparecer { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    html { scroll-behavior: auto; }
   }
 
-  /* Pantallas chicas */
-  @media (max-width: 54rem) {
-    .nav { display: none; }
-    .historia-grilla, .visita-grilla, .carta { grid-template-columns: minmax(0, 1fr); }
-    .historia .foto { max-height: 30rem; }
-    .visita .foto { aspect-ratio: 3 / 2; }
-    .portada::before {
-      background: linear-gradient(to bottom, rgba(13, 21, 18, 0.7) 0%, rgba(13, 21, 18, 0.3) 30%, rgba(13, 21, 18, 0.75) 60%, rgba(13, 21, 18, 0.96) 100%);
-    }
-  }
-  @media (max-width: 30rem) {
-    body { font-size: 1.0625rem; }
-    .coord { display: block; margin: 0.35rem 0 0; }
-    .datos div { grid-template-columns: 7rem 1fr; gap: 1rem; }
-    .visita-lista .etiqueta { display: block; min-width: 0; margin-top: 0.6rem; }
-    .acciones { gap: 1.25rem; }
+  .pie { padding-block: 1.5rem 3rem; border-top: 1px solid var(--linea); color: var(--gris); font-size: 0.92rem; }
+
+  @media (max-width: 52rem) {
+    .versiones { grid-template-columns: minmax(0, 1fr); }
   }
 </style>
 </head>
 
 <body>
 
-<main id="inicio">
+<header class="ancho barra">
+  <p class="marca">Lucy's Spa <span>Buenos Aires</span></p>
+  <div class="idiomas" role="group" aria-label="Idioma / Language">
+    <button type="button" data-idioma="es" aria-pressed="true" aria-label="Español">ES</button>
+    <button type="button" data-idioma="en" aria-pressed="false" aria-label="English">EN</button>
+  </div>
+</header>
 
-  <section class="portada">
-    <figure class="foto">
-      <img src="fotos/portada.jpg" alt="" data-alt-es="Lucy's Spa" data-alt-en="Lucy's Spa" data-muestra="https://images.unsplash.com/photo-1696841212541-449ca29397cc?auto=format&fit=crop&w=1900&q=70" onerror="fotoDeMuestra(this)">
-    </figure>
-    <span class="nota nota-foto"><span lang="es">Foto de muestra: fotos/portada.jpg</span><span lang="en">Sample photo: fotos/portada.jpg</span></span>
+<main class="ancho">
 
-    <div class="ancho barra">
-      <a class="marca" href="#inicio">Lucy's Spa<span class="marca-ciudad fina">Buenos Aires</span></a>
-      <nav class="nav fina" aria-label="Secciones">
-        <a href="#danni">Danni</a>
-        <a href="#tratamientos"><span lang="es">Tratamientos</span><span lang="en">Treatments</span></a>
-        <a href="#visita"><span lang="es">Cómo llegar</span><span lang="en">Find us</span></a>
-      </nav>
-      <div class="idiomas" role="group" aria-label="Idioma / Language">
-        <button type="button" class="fina" data-idioma="es" aria-pressed="true" aria-label="Español">ES</button>
-        <button type="button" class="fina" data-idioma="en" aria-pressed="false" aria-label="English">EN</button>
+  <div class="cabeza">
+    <h1><span lang="es">Dos versiones de la página de Danni</span><span lang="en">Two versions of Danni's page</span></h1>
+    <p lang="es">Los mismos textos, los mismos tratamientos y el mismo WhatsApp. Lo que cambia es el diseño. Abrí las dos y elegí la que más te guste.</p>
+    <p lang="en">The same words, the same treatments and the same WhatsApp. Only the design changes. Open both and pick the one you like best.</p>
+  </div>
+
+  <div class="versiones">
+
+    <article class="version version-oscura">
+      <div class="vista vista-oscura">
+        <iframe src="oscuro.html" title="" tabindex="-1" aria-hidden="true" loading="lazy"></iframe>
       </div>
-    </div>
-
-    <div class="ancho portada-cuerpo">
-      <p class="portada-lugar fina">Microcentro, Buenos Aires <span class="coord">34°36′ S, 58°22′ <span lang="es">O</span><span lang="en">W</span></span></p>
-      <h1><span lang="es">Soy Danni.</span><span lang="en">I'm Danni.</span></h1>
-      <p class="bajada" lang="es">Hace diez años que me dedico al masaje y a la estética. Lucy's Spa es mi lugar, y atiendo en español y en inglés.</p>
-      <p class="bajada" lang="en">I've worked in massage and skin care for ten years. Lucy's Spa is my place, and I see clients in Spanish and English.</p>
-      <div class="acciones" id="acciones">
-        <a class="btn fina" data-wa href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Reservar por WhatsApp</span><span lang="en">Book on WhatsApp</span></a>
-        <a class="enlace fina" href="#tratamientos"><span lang="es">Ver tratamientos</span><span lang="en">See treatments</span></a>
+      <div class="version-texto">
+        <h2><a href="oscuro.html"><span lang="es">Versión oscura</span><span lang="en">Dark version</span></a></h2>
+        <p lang="es">Fondo oscuro y fotos grandes. Los tratamientos van en una lista, como una carta.</p>
+        <p lang="en">Dark background and large photos. Treatments are set out as a list, like a menu.</p>
+        <span class="abrir" aria-hidden="true"><span lang="es">Abrir la versión oscura</span><span lang="en">Open the dark version</span></span>
       </div>
-      <p class="horario-corto" lang="es">Todos los días de 9 a 21, con turno previo.</p>
-      <p class="horario-corto" lang="en">Open every day, 9 am to 9 pm, by appointment.</p>
-    </div>
-  </section>
+    </article>
 
-  <section class="seccion historia" id="danni">
-    <div class="ancho historia-grilla">
-
-      <figure class="foto">
-        <img src="fotos/danni.jpg" alt="Danni" data-alt-es="Danni en Lucy's Spa" data-alt-en="Danni at Lucy's Spa" data-muestra="https://images.unsplash.com/photo-1741522509438-a120c0bb5e88?auto=format&fit=crop&w=1100&q=70" onerror="fotoDeMuestra(this)">
-        <span class="nota"><span lang="es">Foto de muestra. Acá va el retrato de Danni: fotos/danni.jpg</span><span lang="en">Sample photo. Danni's portrait goes here: fotos/danni.jpg</span></span>
-      </figure>
-
-      <div>
-        <span class="nota"><span lang="es">Borrador. Danni: revisá este texto y cambiá lo que no sea así.</span><span lang="en">Draft. Danni: check this text and change anything that isn't right.</span></span>
-
-        <h2><span lang="es">Soy porteña y Lucy's Spa es mío.</span><span lang="en">I'm from Buenos Aires and Lucy's Spa is mine.</span></h2>
-
-        <div class="historia-resto" lang="es">
-          <p>Lo dirijo y también atiendo.</p>
-          <p>Empecé hace diez años. En ese tiempo me formé en distintas técnicas de masaje y en limpieza facial en IDRAET y en IDIP, dos centros de formación en estética, masajes y belleza.</p>
-          <p>Sigo estudiando. Lo que aprendo lo sumo al spa, y lo próximo que quiero incorporar son más tratamientos corporales.</p>
-        </div>
-        <div class="historia-resto" lang="en">
-          <p>I run it and I work in it.</p>
-          <p>I started ten years ago. Since then I've trained in different massage techniques and in facial cleansing at IDRAET and IDIP, two training centres for aesthetics, massage and beauty.</p>
-          <p>I'm still studying. What I learn goes into the spa, and next I want to add more body treatments.</p>
-        </div>
-
-        <dl class="datos">
-          <div>
-            <dt class="fina"><span lang="es">Formación</span><span lang="en">Training</span></dt>
-            <dd>IDRAET, IDIP</dd>
-          </div>
-          <div>
-            <dt class="fina"><span lang="es">Técnicas</span><span lang="en">Techniques</span></dt>
-            <dd><span lang="es">Masaje y limpieza facial</span><span lang="en">Massage and facial cleansing</span></dd>
-          </div>
-          <div>
-            <dt class="fina"><span lang="es">Experiencia</span><span lang="en">Experience</span></dt>
-            <dd><span lang="es">Diez años</span><span lang="en">Ten years</span></dd>
-          </div>
-          <div>
-            <dt class="fina"><span lang="es">Idiomas</span><span lang="en">Languages</span></dt>
-            <dd><span lang="es">Español e inglés</span><span lang="en">Spanish and English</span></dd>
-          </div>
-        </dl>
+    <article class="version version-clara">
+      <div class="vista vista-clara">
+        <iframe src="claro.html" title="" tabindex="-1" aria-hidden="true" loading="lazy"></iframe>
       </div>
-
-    </div>
-  </section>
-
-  <section class="seccion tratamientos" id="tratamientos">
-    <div class="ancho">
-      <div class="tratamientos-cabeza">
-        <h2><span lang="es">Tratamientos</span><span lang="en">Treatments</span></h2>
-        <p class="tratamientos-intro" lang="es">Tocá un tratamiento y se abre WhatsApp con el pedido ya escrito. Si no sabés cuál elegir, contame qué te duele o qué buscás.</p>
-        <p class="tratamientos-intro" lang="en">Tap a treatment and WhatsApp opens with your request already written. Not sure which one? Tell me what hurts or what you're after.</p>
+      <div class="version-texto">
+        <h2><a href="claro.html"><span lang="es">Versión clara</span><span lang="en">Light version</span></a></h2>
+        <p lang="es">Fondo claro y una tarjeta por tratamiento. Suma un formulario corto que abre WhatsApp con el mensaje escrito.</p>
+        <p lang="en">Light background and one card per treatment. It adds a short form that opens WhatsApp with the message written.</p>
+        <span class="abrir" aria-hidden="true"><span lang="es">Abrir la versión clara</span><span lang="en">Open the light version</span></span>
       </div>
+    </article>
 
-      <div class="carta">
-
-        <div>
-          <div class="grupo">
-            <h3><span lang="es">Masajes</span><span lang="en">Massage</span></h3>
-            <ul>
-              <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="masaje relajante" data-en="a relaxing massage">
-                <span class="trat-nom"><span lang="es">Relajante</span><span lang="en">Relaxing</span></span>
-                <span class="trat-desc"><span lang="es">Ritmo lento y presión suave para bajar el estrés.</span><span lang="en">Slow pace and light pressure to ease stress.</span></span>
-                <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
-              <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="masaje descontracturante" data-en="a deep tissue massage">
-                <span class="trat-nom"><span lang="es">Descontracturante</span><span lang="en">Deep tissue</span></span>
-                <span class="trat-desc"><span lang="es">Presión firme sobre las zonas cargadas: cuello, hombros, espalda.</span><span lang="en">Firm pressure on tight areas: neck, shoulders, back.</span></span>
-                <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
-              <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="masaje deportivo y rehabilitación" data-en="a sports and recovery massage">
-                <span class="trat-nom"><span lang="es">Deportivo y rehabilitación</span><span lang="en">Sports and recovery</span></span>
-                <span class="trat-desc"><span lang="es">Para antes o después de entrenar, y para acompañar una recuperación muscular.</span><span lang="en">For before or after training, and to support muscle recovery.</span></span>
-                <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
-              <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="masaje californiano" data-en="a Californian massage">
-                <span class="trat-nom"><span lang="es">Californiano</span><span lang="en">Californian</span></span>
-                <span class="trat-desc"><span lang="es">Pases largos y envolventes, de cuerpo entero.</span><span lang="en">Long, flowing strokes over the whole body.</span></span>
-                <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
-              <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="masaje tailandés" data-en="a Thai massage">
-                <span class="trat-nom"><span lang="es">Tailandés</span><span lang="en">Thai</span></span>
-                <span class="trat-desc"><span lang="es">Estiramientos y presiones que devuelven movilidad.</span><span lang="en">Stretches and pressure that bring back mobility.</span></span>
-                <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
-              <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="masaje sueco" data-en="a Swedish massage">
-                <span class="trat-nom"><span lang="es">Sueco</span><span lang="en">Swedish</span></span>
-                <span class="trat-desc"><span lang="es">Amasado y fricción. El clásico para aflojar los músculos y activar la circulación.</span><span lang="en">Kneading and friction. The classic for loosening muscles and getting circulation going.</span></span>
-                <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
-              <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="masaje con piedras calientes" data-en="a hot stone massage">
-                <span class="trat-nom"><span lang="es">Con piedras calientes</span><span lang="en">Hot stone</span></span>
-                <span class="trat-desc"><span lang="es">El calor de las piedras afloja la tensión profunda.</span><span lang="en">Heat from the stones releases deep tension.</span></span>
-                <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
-            </ul>
-          </div>
-
-          <div class="grupo">
-            <h3><span lang="es">Depilación</span><span lang="en">Hair removal</span></h3>
-            <ul>
-              <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="depilación sistema español" data-en="Spanish wax hair removal">
-                <span class="trat-nom"><span lang="es">Sistema español</span><span lang="en">Spanish wax</span></span>
-                <span class="trat-desc"><span lang="es">Cera que retira el vello de raíz y cuida la piel.</span><span lang="en">Wax that removes hair from the root and is kind to skin.</span></span>
-                <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
-              <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="depilación sugaring" data-en="sugaring hair removal">
-                <span class="trat-nom">Sugaring</span>
-                <span class="trat-desc"><span lang="es">Pasta natural de azúcar, suave con la piel.</span><span lang="en">Natural sugar paste, gentle on skin.</span></span>
-                <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
-            </ul>
-          </div>
-        </div>
-
-        <div>
-          <div class="grupo">
-            <h3><span lang="es">Terapéuticos</span><span lang="en">Therapeutic</span></h3>
-            <ul>
-              <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="quiropraxia" data-en="a chiropractic session">
-                <span class="trat-nom"><span lang="es">Quiropraxia</span><span lang="en">Chiropractic</span></span>
-                <span class="trat-desc"><span lang="es">Trabajo sobre columna y articulaciones para aliviar dolores y ganar movilidad.</span><span lang="en">Work on the spine and joints to ease pain and improve movement.</span></span>
-                <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
-              <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="drenaje linfático" data-en="lymphatic drainage">
-                <span class="trat-nom"><span lang="es">Drenaje linfático</span><span lang="en">Lymphatic drainage</span></span>
-                <span class="trat-desc"><span lang="es">Maniobras muy suaves que ayudan a reducir la retención de líquidos.</span><span lang="en">Very gentle strokes that help reduce fluid retention.</span></span>
-                <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
-              <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="reflexología" data-en="reflexology">
-                <span class="trat-nom"><span lang="es">Reflexología</span><span lang="en">Reflexology</span></span>
-                <span class="trat-desc"><span lang="es">Presión en puntos de pies y manos.</span><span lang="en">Pressure on points of the feet and hands.</span></span>
-                <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
-            </ul>
-          </div>
-
-          <div class="grupo">
-            <h3><span lang="es">Rostro y cuerpo</span><span lang="en">Face and body</span></h3>
-            <ul>
-              <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="limpieza facial" data-en="a facial cleansing">
-                <span class="trat-nom"><span lang="es">Limpieza facial</span><span lang="en">Facial cleansing</span></span>
-                <span class="trat-desc"><span lang="es">Limpieza profunda que saca impurezas y deja la piel fresca.</span><span lang="en">A deep clean that clears impurities and leaves skin fresh.</span></span>
-                <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
-              <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="exfoliación e hidratación corporal" data-en="a body scrub and hydration">
-                <span class="trat-nom"><span lang="es">Exfoliación e hidratación corporal</span><span lang="en">Body scrub and hydration</span></span>
-                <span class="trat-desc"><span lang="es">Piel suave y nutrida en todo el cuerpo.</span><span lang="en">Soft, nourished skin all over.</span></span>
-                <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
-              <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="masaje reductor" data-en="a contouring massage">
-                <span class="trat-nom"><span lang="es">Masaje reductor</span><span lang="en">Contouring massage</span></span>
-                <span class="trat-desc"><span lang="es">Masaje enérgico sobre zonas puntuales para modelar y activar la circulación.</span><span lang="en">Vigorous massage on specific areas to shape and boost circulation.</span></span>
-                <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
-              <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="tratamiento anticelulitis" data-en="an anti-cellulite treatment">
-                <span class="trat-nom"><span lang="es">Anticelulitis</span><span lang="en">Anti-cellulite</span></span>
-                <span class="trat-desc"><span lang="es">Mejora el aspecto de la piel de naranja y tonifica.</span><span lang="en">Improves the look of dimpled skin and tones.</span></span>
-                <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
-              <li><a class="trat" href="https://wa.me/5491124559977" target="_blank" rel="noopener" data-es="tratamiento para piernas cansadas" data-en="a tired legs treatment">
-                <span class="trat-nom"><span lang="es">Piernas cansadas</span><span lang="en">Tired legs</span></span>
-                <span class="trat-desc"><span lang="es">Alivia la pesadez y deja las piernas livianas.</span><span lang="en">Eases heaviness and leaves legs feeling light.</span></span>
-                <span class="trat-pedir fina"><span lang="es">Reservar</span><span lang="en">Book</span></span></a></li>
-            </ul>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </section>
-
-  <section class="franja">
-    <figure class="foto">
-      <img src="fotos/ambiente.jpg" alt="" data-alt-es="Detalle de Lucy's Spa" data-alt-en="A detail of Lucy's Spa" data-muestra="https://images.unsplash.com/photo-1598901986949-f593ff2a31a6?auto=format&fit=crop&w=1900&q=70" onerror="fotoDeMuestra(this)">
-    </figure>
-    <span class="nota nota-foto"><span lang="es">Foto de muestra: fotos/ambiente.jpg</span><span lang="en">Sample photo: fotos/ambiente.jpg</span></span>
-    <p class="equipo" lang="es">No trabajo sola. En el equipo hay masajistas mujeres y varones, y todos hablamos español e inglés.</p>
-    <p class="equipo" lang="en">I don't work alone. The team includes women and men, and we all speak Spanish and English.</p>
-  </section>
-
-  <section class="seccion visita" id="visita">
-    <div class="ancho visita-grilla">
-
-      <div>
-        <h2><span lang="es">Cómo llegar</span><span lang="en">Find us</span></h2>
-        <address class="direccion">Tres Sargentos 421</address>
-        <p class="direccion-resto" lang="es">Piso 2, departamento 4. Microcentro, Buenos Aires.</p>
-        <p class="direccion-resto" lang="en">2nd floor, apartment 4. Microcentro, Buenos Aires.</p>
-        <a class="enlace fina" href="https://www.google.com/maps/search/?api=1&query=Tres+Sargentos+421%2C+Buenos+Aires" target="_blank" rel="noopener"><span lang="es">Abrir en Google Maps</span><span lang="en">Open in Google Maps</span></a>
-
-        <h3 class="fina"><span lang="es">Horario</span><span lang="en">Hours</span></h3>
-        <ul class="visita-lista" lang="es">
-          <li>Todos los días, de 9 a 21.</li>
-          <li>Siempre con turno previo.</li>
-          <li>En verano el horario puede cambiar. Consultá antes de venir.</li>
-        </ul>
-        <ul class="visita-lista" lang="en">
-          <li>Every day, 9 am to 9 pm.</li>
-          <li>By appointment only.</li>
-          <li>Hours can change in summer. Check before you come.</li>
-        </ul>
-
-        <h3 class="fina"><span lang="es">Contacto</span><span lang="en">Contact</span></h3>
-        <ul class="visita-lista">
-          <li><span class="etiqueta">WhatsApp</span> <a data-wa href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">11 2455-9977</span><span lang="en">+54 9 11 2455-9977</span></a></li>
-          <li><span class="etiqueta"><span lang="es">Teléfono fijo</span><span lang="en">Landline</span></span> <a href="tel:+541152227228"><span lang="es">011 5222-7228</span><span lang="en">+54 11 5222-7228</span></a></li>
-          <li><span class="etiqueta">Email</span> <a href="mailto:lucyspa.baires@gmail.com">lucyspa.baires@gmail.com</a></li>
-        </ul>
-      </div>
-
-      <figure class="foto">
-        <img src="fotos/sala.jpg" alt="" data-alt-es="Una sala de Lucy's Spa" data-alt-en="A treatment room at Lucy's Spa" data-muestra="https://images.unsplash.com/photo-1611920629515-3f76f8c36b37?auto=format&fit=crop&w=1300&q=70" onerror="fotoDeMuestra(this)">
-        <span class="nota"><span lang="es">Foto de muestra: fotos/sala.jpg</span><span lang="en">Sample photo: fotos/sala.jpg</span></span>
-      </figure>
-
-    </div>
-  </section>
+  </div>
 
 </main>
 
-<footer class="cierre">
+<footer class="pie">
   <div class="ancho">
-    <h2><span lang="es">¿Cuándo venís?</span><span lang="en">When suits you?</span></h2>
-    <p class="cierre-ciudad" lang="es">Te espero en Buenos Aires.</p>
-    <p class="cierre-ciudad" lang="en">I'll be waiting in Buenos Aires.</p>
-    <a class="btn fina" data-wa href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Reservar por WhatsApp</span><span lang="en">Book on WhatsApp</span></a>
-
-    <div class="pie">
-      <div>
-        <p>Lucy's Spa, Tres Sargentos 421, 2º 4, Microcentro, Buenos Aires.</p>
-        <p id="hora" hidden></p>
-        <span class="nota"><span lang="es">Las fotos son de muestra (Unsplash, licencia libre) hasta tener las de Danni.</span><span lang="en">Photos are samples (Unsplash, free licence) until Danni's own are ready.</span></span>
-      </div>
-      <button type="button" id="notas-btn">Ocultar notas de borrador</button>
-    </div>
+    <p lang="es">Borrador. Las fotos son de muestra hasta tener las de Danni.</p>
+    <p lang="en">Draft. Photos are samples until Danni's own are ready.</p>
   </div>
 </footer>
-
-<a class="flota fina" id="flota" data-wa href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Reservar</span><span lang="en">Book</span></a>
 
 <script>
 (function () {
   var raiz = document.documentElement;
-  var WHATSAPP = '5491124559977';
-
-  var textos = {
-    es: {
-      titulo: "Danni | Lucy's Spa, masajes y estética en Microcentro",
-      general: 'Hola Danni, quiero pedir un turno.',
-      tratamiento: 'Hola Danni, quiero pedir un turno para ',
-      muestra: 'Foto de muestra',
-      ocultar: 'Ocultar notas de borrador',
-      mostrar: 'Mostrar notas de borrador'
-    },
-    en: {
-      titulo: "Danni | Lucy's Spa, massage and skin care in downtown Buenos Aires",
-      general: "Hi Danni, I'd like to book an appointment.",
-      tratamiento: "Hi Danni, I'd like to book ",
-      muestra: 'Sample photo',
-      ocultar: 'Hide draft notes',
-      mostrar: 'Show draft notes'
-    }
+  var titulos = {
+    es: "Lucy's Spa | Dos versiones de la página de Danni",
+    en: "Lucy's Spa | Two versions of Danni's page"
   };
 
   function leer(clave) {
@@ -684,82 +214,37 @@
   function guardar(clave, valor) {
     try { localStorage.setItem(clave, valor); } catch (e) {}
   }
-  function enlaceWhatsApp(mensaje) {
-    return 'https://wa.me/' + WHATSAPP + '?text=' + encodeURIComponent(mensaje);
-  }
 
-  /* El botón fijo aparece cuando no hay otro botón de reserva a la vista */
-  var flota = document.getElementById('flota');
-  if ('IntersectionObserver' in window) {
-    var aLaVista = new Set();
-    var ojo = new IntersectionObserver(function (entradas) {
-      entradas.forEach(function (e) {
-        if (e.isIntersecting) aLaVista.add(e.target); else aLaVista.delete(e.target);
-      });
-      if (aLaVista.size) flota.setAttribute('data-oculta', '');
-      else flota.removeAttribute('data-oculta');
+  /* Las vistas previas miden 1280 px de ancho y se achican para entrar en la tarjeta */
+  var vistas = document.querySelectorAll('.vista');
+  function ajustar() {
+    vistas.forEach(function (vista) {
+      vista.style.setProperty('--escala', vista.clientWidth / 1280);
     });
-    ojo.observe(document.getElementById('acciones'));
-    ojo.observe(document.querySelector('.cierre .btn'));
   }
-
-  /* La hora de Buenos Aires, para quien escribe desde otro huso */
-  var hora = document.getElementById('hora');
-  function pintarHora() {
-    try {
-      var en = raiz.dataset.lang === 'en';
-      var partes = new Intl.DateTimeFormat(en ? 'en-US' : 'es-AR', {
-        timeZone: 'America/Argentina/Buenos_Aires', hour: 'numeric', minute: '2-digit', hour12: en
-      }).format(new Date());
-      if (en) hora.textContent = "It's " + partes + ' in Buenos Aires.';
-      else hora.textContent = (/^(1|01):/.test(partes) ? 'En Buenos Aires es la ' : 'En Buenos Aires son las ') + partes + '.';
-      hora.hidden = false;
-    } catch (e) { hora.hidden = true; }
-  }
-  setInterval(pintarHora, 30000);
-
-  var botonNotas = document.getElementById('notas-btn');
-  function pintarNotas() {
-    var t = textos[raiz.dataset.lang];
-    botonNotas.textContent = raiz.dataset.notas === 'off' ? t.mostrar : t.ocultar;
-  }
+  ajustar();
+  window.addEventListener('resize', ajustar);
 
   function ponerIdioma(idioma) {
-    var t = textos[idioma];
     raiz.lang = idioma;
     raiz.dataset.lang = idioma;
-    document.title = t.titulo;
-
+    document.title = titulos[idioma];
     document.querySelectorAll('[data-idioma]').forEach(function (b) {
       b.setAttribute('aria-pressed', String(b.dataset.idioma === idioma));
     });
-    document.querySelectorAll('a[data-wa]').forEach(function (a) {
-      a.href = enlaceWhatsApp(t.general);
-    });
-    document.querySelectorAll('a.trat').forEach(function (a) {
-      a.href = enlaceWhatsApp(t.tratamiento + a.dataset[idioma] + '.');
-    });
-    document.querySelectorAll('img[data-alt-es]').forEach(function (img) {
-      img.alt = img.dataset.esMuestra ? t.muestra : img.dataset[idioma === 'en' ? 'altEn' : 'altEs'];
-    });
-    pintarNotas();
-    pintarHora();
   }
 
   document.querySelectorAll('[data-idioma]').forEach(function (b) {
     b.addEventListener('click', function () {
       ponerIdioma(b.dataset.idioma);
       guardar('lucys-idioma', b.dataset.idioma);
+      /* Las vistas previas leen el idioma guardado al cargar */
+      document.querySelectorAll('.vista iframe').forEach(function (marco) {
+        try { marco.contentWindow.location.reload(); } catch (e) {}
+      });
     });
   });
 
-  botonNotas.addEventListener('click', function () {
-    raiz.dataset.notas = raiz.dataset.notas === 'off' ? 'on' : 'off';
-    guardar('lucys-notas', raiz.dataset.notas);
-    pintarNotas();
-  });
-
-  if (raiz.dataset.notas !== 'off' && leer('lucys-notas') === 'off') raiz.dataset.notas = 'off';
   ponerIdioma(leer('lucys-idioma') === 'en' ? 'en' : 'es');
 })();
 </script>

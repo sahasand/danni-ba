@@ -2,16 +2,18 @@
 
 Landing page for Danni, owner of Lucy's Spa (Tres Sargentos 421, Microcentro, Buenos Aires). A personal alternative to the generic https://www.lucyspa.com.ar/.
 
-- One file, `index.html`, no build. Spanish default with EN toggle; every text appears twice (`lang="es"` and `lang="en"`), so edit both.
+- Three self-contained pages, no build: `index.html` (showcase with live previews and links to both versions), `oscuro.html` (dark version) and `claro.html` (light version, modelled on the layout of magichands.com.ar at the user's request; no logo, photos or text taken from it). Same content, WhatsApp number and `fotos/` files; a content change must be made in both. The user has not picked one yet.
+- Spanish default with EN toggle; every text appears twice (`lang="es"` and `lang="en"`), so edit both.
 - Live at https://sahasand.github.io/danni-ba/ (GitHub Pages from `main`, public repo `sahasand/danni-ba`). Pushing to `main` deploys.
-- Look: dark, photo-led luxury spa (Cormorant Garamond + Jost). Already rejected: cream/serif/terracotta ("AI slop") and a green/pink poster ("too loud").
+- Looks: `oscuro.html` is dark, photo-led luxury spa (Cormorant Garamond + Jost); `claro.html` is cream and deep green (Marcellus + Figtree). Already rejected: cream/serif/terracotta with empty photo boxes ("AI slop") and a green/pink poster ("too loud").
 - Photos are Unsplash placeholders. Real files in `fotos/` (`portada.jpg`, `danni.jpg`, `ambiente.jpg`, `sala.jpg`) replace them automatically.
 - Facts come from the old site and from Danni (10 years, trained at IDRAET and IDIP). Do not invent credentials.
-- Before shipping copy: `~/.claude/skills/style-guard/scripts/check_style.sh neutral index.html`.
+- Before shipping copy: `~/.claude/skills/style-guard/scripts/check_style.sh neutral index.html oscuro.html claro.html`.
 
 ## Open loops
 
+- Pick a version (user and Danni). The winner becomes `index.html` and the showcase and the other version are deleted.
 - Danni to confirm her story text, the treatment descriptions and the English treatment names.
 - Real photos still needed; the hero, portrait, ambience and room shots are all stock.
-- When final: remove the `noindex` meta and set `data-notas="off"` on `<html>`.
-- The phone layout of the coordinates line was changed after the last screenshot and has not been checked visually.
+- When final: remove the `noindex` meta and set `data-notas="off"` on `<html>` (all pages carry both today).
+- `oscuro.html`: the phone layout of the coordinates line was changed after the last screenshot and has not been checked visually.
