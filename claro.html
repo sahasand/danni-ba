@@ -25,6 +25,10 @@
     fotos/ambiente.jpg   detalle o ambiente del spa
     fotos/sala.jpg       una sala del spa
 
+  Video: está en la carpeta "media", uno por idioma. Se genera con Remotion desde la
+  carpeta "video" (ahí están los textos y las fotos que usa). Para cambiarlo:
+  editar video/src/Promo.tsx o las fotos de video/public, y correr "npm run render".
+
   Tratamientos: cada tarjeta es un <article class="trat">. El grupo va en data-grupo
   y el texto que se manda por WhatsApp va en data-es y data-en.
 
@@ -336,6 +340,13 @@
   .cifras strong { display: block; color: var(--verde); font-family: var(--titulos); font-weight: 400; font-size: 1.6rem; line-height: 1.2; }
   .cifras li > span { font-size: 0.95rem; }
 
+  /* Video */
+  .video-bloque { margin-top: clamp(2.5rem, 6vw, 4rem); }
+  .video-bloque h3 { margin-bottom: 1.1rem; color: var(--hondo); font-size: 1.6rem; line-height: 1.2; }
+  .video-marco { max-width: 60rem; aspect-ratio: 16 / 9; border-radius: 18px; overflow: hidden; background: var(--hondo); }
+  .video-marco video { display: block; width: 100%; height: 100%; }
+  .video-bloque .nota { margin: 0.9rem 0 0; }
+
   /* Tratamientos */
   .tratamientos-intro { max-width: 37rem; margin: 0.9rem 0 0; color: var(--gris); font-size: 1.1rem; }
   .filtros { display: flex; flex-wrap: wrap; gap: 0.6rem; margin: 2rem 0 1.75rem; }
@@ -602,6 +613,14 @@
         <li><strong><span lang="es">9 a 21</span><span lang="en">9 am to 9 pm</span></strong><span lang="es">todos los días</span><span lang="en">every day</span></li>
       </ul>
     </div>
+
+    <div class="ancho video-bloque">
+      <h3><span lang="es">Lucy's Spa en 20 segundos</span><span lang="en">Lucy's Spa in 20 seconds</span></h3>
+      <div class="video-marco">
+        <video id="video" muted loop playsinline controls preload="none" poster="media/lucys-spa-es.jpg" src="media/lucys-spa-es.mp4" data-es="media/lucys-spa-es" data-en="media/lucys-spa-en"></video>
+      </div>
+      <span class="nota"><span lang="es">Video de muestra, hecho con las fotos de muestra. Con las fotos de Danni se genera de nuevo (carpeta "video").</span><span lang="en">Sample video, made with the sample photos. It gets rendered again with Danni's photos ("video" folder).</span></span>
+    </div>
   </section>
 
   <section class="banda tratamientos" id="tratamientos">
@@ -846,7 +865,8 @@
       soy: 'Soy ',
       interesa: 'Me interesa: ',
       otra: 'Otra consulta',
-      otraTexto: 'otra consulta'
+      otraTexto: 'otra consulta',
+      video: "Video de Lucy's Spa, sin sonido"
     },
     en: {
       titulo: "Danni | Lucy's Spa, massage and skin care in downtown Buenos Aires",
@@ -859,7 +879,8 @@
       soy: "I'm ",
       interesa: "I'm interested in: ",
       otra: 'Something else',
-      otraTexto: 'something else'
+      otraTexto: 'something else',
+      video: "Lucy's Spa video, no sound"
     }
   };
 
@@ -946,6 +967,34 @@
     window.open(enlaceWhatsApp(texto), '_blank', 'noopener');
   });
 
+  /* Video: arranca solo cuando está a la vista y se frena cuando deja de verse.
+     No arranca solo si la persona pidió menos movimiento o si ya lo pausó. */
+  var video = document.getElementById('video');
+  var pausaPropia = false;
+  var pausadoPorLaPersona = false;
+  function reproducir() {
+    var promesa = video.play();
+    if (promesa && promesa.catch) promesa.catch(function () {});
+  }
+  video.addEventListener('pause', function () {
+    if (!pausaPropia) pausadoPorLaPersona = true;
+    pausaPropia = false;
+  });
+  video.addEventListener('play', function () { pausadoPorLaPersona = false; });
+  var menosMovimiento = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!menosMovimiento && 'IntersectionObserver' in window) {
+    new IntersectionObserver(function (entradas) {
+      entradas.forEach(function (e) {
+        if (e.isIntersecting) {
+          if (!pausadoPorLaPersona) reproducir();
+        } else if (!video.paused) {
+          pausaPropia = true;
+          video.pause();
+        }
+      });
+    }, { threshold: 0.5 }).observe(video);
+  }
+
   /* La hora de Buenos Aires, para quien escribe desde otro huso */
   var hora = document.getElementById('hora');
   function pintarHora() {
@@ -991,6 +1040,14 @@
     document.querySelectorAll('[data-ph-es]').forEach(function (campo) {
       campo.placeholder = campo.dataset[idioma === 'en' ? 'phEn' : 'phEs'];
     });
+    var archivo = video.dataset[idioma];
+    if (video.getAttribute('src') !== archivo + '.mp4') {
+      var andaba = !video.paused;
+      video.poster = archivo + '.jpg';
+      video.src = archivo + '.mp4';
+      if (andaba) reproducir();
+    }
+    video.setAttribute('aria-label', t.video);
     armarInteres(idioma);
     pintarNotas();
     pintarHora();

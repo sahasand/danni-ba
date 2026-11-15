@@ -1,0 +1,22 @@
+{
+  "name": "lucys-spa-video",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Video corto de Lucy's Spa hecho con Remotion. Se usa en claro.html.",
+  "scripts": {
+    "ver": "remotion studio src/index.ts",
+    "render": "remotion render src/index.ts Promo-es ../media/lucys-spa-es.mp4 --muted --crf=24 && remotion render src/index.ts Promo-en ../media/lucys-spa-en.mp4 --muted --crf=24 && remotion still src/index.ts Promo-es ../media/lucys-spa-es.jpg --frame=75 --image-format=jpeg --jpeg-quality=82 && remotion still src/index.ts Promo-en ../media/lucys-spa-en.jpg --frame=75 --image-format=jpeg --jpeg-quality=82"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.543",
+    "@remotion/google-fonts": "4.0.543",
+    "@remotion/transitions": "4.0.543",
+    "react": "19.3.1",
+    "react-dom": "19.3.1",
+    "remotion": "4.0.543"
+  },
+  "devDependencies": {
+    "@types/react": "19.3.0",
+    "typescript": "7.0.2"
+  }
+}
