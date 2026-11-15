@@ -173,6 +173,7 @@
   }
   .barra { display: flex; align-items: center; gap: 2.5rem; width: 100%; padding-block: 1.75rem; }
   .marca { margin-right: auto; font-family: var(--serif); font-weight: 400; font-size: 1.6rem; line-height: 1; text-decoration: none; }
+  .marca .marca-ciudad { display: block; margin-top: 0.5rem; font-size: 0.62rem; letter-spacing: 0.34em; color: var(--salvia); }
   .nav { display: flex; gap: 2.5rem; }
   .nav a { text-decoration: none; transition: opacity 0.2s ease; }
   .nav a:hover { opacity: 0.65; }
@@ -200,6 +201,7 @@
     padding-bottom: clamp(2.5rem, 6vw, 5rem);
   }
   .portada-lugar { margin-bottom: 1.5rem; color: var(--salvia); }
+  .coord { display: inline-block; margin-left: 1.6em; opacity: 0.7; white-space: nowrap; }
   .portada h1 { font-size: clamp(4rem, 12vw, 10.5rem); line-height: 0.92; letter-spacing: -0.01em; margin-bottom: 0.3em; }
   .bajada { max-width: 31rem; font-size: 1.2rem; line-height: 1.6; }
   .acciones { display: flex; flex-wrap: wrap; align-items: center; gap: 1.25rem 2.25rem; margin: 2rem 0 1.75rem; }
@@ -312,7 +314,8 @@
   /* Cierre */
   .cierre { background: var(--bosque); text-align: center; }
   .cierre .ancho { padding-block: clamp(4.5rem, 11vw, 9rem) 2rem; }
-  .cierre h2 { font-style: italic; font-size: clamp(3rem, 8vw, 7rem); line-height: 1; margin-bottom: 0.55em; }
+  .cierre h2 { font-style: italic; font-size: clamp(3rem, 8vw, 7rem); line-height: 1; margin-bottom: 0.3em; }
+  .cierre-ciudad { margin: 0 0 2.5rem; color: var(--salvia); font-size: 1.2rem; }
   .pie {
     display: flex;
     flex-wrap: wrap;
@@ -380,6 +383,7 @@
   }
   @media (max-width: 30rem) {
     body { font-size: 1.0625rem; }
+    .coord { display: block; margin: 0.35rem 0 0; }
     .datos div { grid-template-columns: 7rem 1fr; gap: 1rem; }
     .visita-lista .etiqueta { display: block; min-width: 0; margin-top: 0.6rem; }
     .acciones { gap: 1.25rem; }
@@ -398,7 +402,7 @@
     <span class="nota nota-foto"><span lang="es">Foto de muestra: fotos/portada.jpg</span><span lang="en">Sample photo: fotos/portada.jpg</span></span>
 
     <div class="ancho barra">
-      <a class="marca" href="#inicio">Lucy's Spa</a>
+      <a class="marca" href="#inicio">Lucy's Spa<span class="marca-ciudad fina">Buenos Aires</span></a>
       <nav class="nav fina" aria-label="Secciones">
         <a href="#danni">Danni</a>
         <a href="#tratamientos"><span lang="es">Tratamientos</span><span lang="en">Treatments</span></a>
@@ -411,7 +415,7 @@
     </div>
 
     <div class="ancho portada-cuerpo">
-      <p class="portada-lugar fina">Microcentro, Buenos Aires</p>
+      <p class="portada-lugar fina">Microcentro, Buenos Aires <span class="coord">34°36′ S, 58°22′ <span lang="es">O</span><span lang="en">W</span></span></p>
       <h1><span lang="es">Soy Danni.</span><span lang="en">I'm Danni.</span></h1>
       <p class="bajada" lang="es">Hace diez años que me dedico al masaje y a la estética. Lucy's Spa es mi lugar, y atiendo en español y en inglés.</p>
       <p class="bajada" lang="en">I've worked in massage and skin care for ten years. Lucy's Spa is my place, and I see clients in Spanish and English.</p>
@@ -633,11 +637,14 @@
 <footer class="cierre">
   <div class="ancho">
     <h2><span lang="es">¿Cuándo venís?</span><span lang="en">When suits you?</span></h2>
+    <p class="cierre-ciudad" lang="es">Te espero en Buenos Aires.</p>
+    <p class="cierre-ciudad" lang="en">I'll be waiting in Buenos Aires.</p>
     <a class="btn fina" data-wa href="https://wa.me/5491124559977" target="_blank" rel="noopener"><span lang="es">Reservar por WhatsApp</span><span lang="en">Book on WhatsApp</span></a>
 
     <div class="pie">
       <div>
         <p>Lucy's Spa, Tres Sargentos 421, 2º 4, Microcentro, Buenos Aires.</p>
+        <p id="hora" hidden></p>
         <span class="nota"><span lang="es">Las fotos son de muestra (Unsplash, licencia libre) hasta tener las de Danni.</span><span lang="en">Photos are samples (Unsplash, free licence) until Danni's own are ready.</span></span>
       </div>
       <button type="button" id="notas-btn">Ocultar notas de borrador</button>
@@ -696,6 +703,21 @@
     ojo.observe(document.querySelector('.cierre .btn'));
   }
 
+  /* La hora de Buenos Aires, para quien escribe desde otro huso */
+  var hora = document.getElementById('hora');
+  function pintarHora() {
+    try {
+      var en = raiz.dataset.lang === 'en';
+      var partes = new Intl.DateTimeFormat(en ? 'en-US' : 'es-AR', {
+        timeZone: 'America/Argentina/Buenos_Aires', hour: 'numeric', minute: '2-digit', hour12: en
+      }).format(new Date());
+      if (en) hora.textContent = "It's " + partes + ' in Buenos Aires.';
+      else hora.textContent = (/^(1|01):/.test(partes) ? 'En Buenos Aires es la ' : 'En Buenos Aires son las ') + partes + '.';
+      hora.hidden = false;
+    } catch (e) { hora.hidden = true; }
+  }
+  setInterval(pintarHora, 30000);
+
   var botonNotas = document.getElementById('notas-btn');
   function pintarNotas() {
     var t = textos[raiz.dataset.lang];
@@ -721,6 +743,7 @@
       img.alt = img.dataset.esMuestra ? t.muestra : img.dataset[idioma === 'en' ? 'altEn' : 'altEs'];
     });
     pintarNotas();
+    pintarHora();
   }
 
   document.querySelectorAll('[data-idioma]').forEach(function (b) {
